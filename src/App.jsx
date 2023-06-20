@@ -4,6 +4,10 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import OrderPage from "./pages/Orders";
 import AdminPage from "./pages/Admins";
+import ProfilePage from "./pages/Profile";
+import CustomersPage from "./pages/Customers";
+import ProductPage from "./pages/Products";
+import CategoriesPage from "./pages/Categories";
 
 const App = () => {
   return (
@@ -11,6 +15,10 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="/orders" element={<OrderPage/>}/>
+        <Route path="/profile" element={<ProfilePage/>}/>
+        <Route path="/categories" element={<CategoriesPage/>} />
+        <Route path="/customers" element={<CustomersPage/>}/>
+        <Route path="/products" element={<ProductPage/>}/>
         <Route path="/admins" element={<AdminPage/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route element={<Error />} path="*" />
