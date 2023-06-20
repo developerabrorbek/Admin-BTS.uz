@@ -16,9 +16,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems } from "../../components/listItems";
-import Orders from "../../components/Orders";
 import { useNavigate } from "react-router";
-
+import Admins from "../../components/Admins"
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -68,7 +67,7 @@ const Drawer = styled(MuiDrawer, {
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function OrderPage() {
+export default function AdminPage() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -148,7 +147,7 @@ export default function OrderPage() {
 
           <Grid item xs={12}>
             <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-              <Orders />
+              <Admins/>
             </Paper>
           </Grid>
         </Box>
