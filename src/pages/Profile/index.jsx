@@ -16,8 +16,17 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems } from "../../components/listItems";
-import Orders from "../../components/Orders";
+import { deepOrange } from "@mui/material/colors";
 import { useNavigate } from "react-router";
+import { Avatar, Button } from "@mui/material";
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
 
 const drawerWidth = 240;
 
@@ -128,9 +137,7 @@ export default function ProfilePage() {
             </IconButton>
           </Toolbar>
           <Divider />
-          <List component="nav">
-            {mainListItems}
-          </List>
+          <List component="nav">{mainListItems}</List>
         </Drawer>
         <Box
           component="main"
@@ -146,11 +153,51 @@ export default function ProfilePage() {
         >
           <Toolbar />
 
-          <Grid item xs={12}>
-            <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-              <Orders />
-            </Paper>
-          </Grid>
+          <Box sx={{ flexGrow: 1, padding: "12px" }}>
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <Item>
+                  <div className="personal-datum">
+                    <div className="head flex items-center justify-between border-b pb-4 mb-4">
+                      <div className="body flex items-center gap-x-4">
+                        <Avatar
+                          alt="Abrorbek Abdulxamidov"
+                          src="/static/images/avatar/1.jpg"
+                          sx={{ bgcolor: deepOrange[500] }}
+                        />
+                        <h3 className="font-bold text-[16px]">
+                          Shaxsiy ma'lumotlarim
+                        </h3>
+                      </div>
+                      <Button variant="contained">O'zgartirish</Button>
+                    </div>
+                    <div className="body p-3 ">
+                      <h3 className="name text-left mb-6 font-semibold text-[15px] text-[#4b4a4a]">
+                        Abrorbek Abdulxamidov
+                      </h3>
+                      <div className="number flex items-center gap-x-3 mb-2">
+                        <span className="tel">Telefon:</span>
+                        <p className="text-black">+99893 999 99 99</p>
+                      </div>
+                      <div className="role flex items-center gap-x-3">
+                        <span>Role: </span>
+                        <p className="text-black">Admin</p>
+                      </div>
+                    </div>
+                  </div>
+                </Item>
+              </Grid>
+              <Grid item xs={4}>
+                <Item>xs=4</Item>
+              </Grid>
+              <Grid item xs={4}>
+                <Item>xs=4</Item>
+              </Grid>
+              <Grid item xs={8}>
+                <Item>xs=8</Item>
+              </Grid>
+            </Grid>
+          </Box>
         </Box>
       </Box>
     </ThemeProvider>

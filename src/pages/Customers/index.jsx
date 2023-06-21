@@ -16,7 +16,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems } from "../../components/listItems";
-import Orders from "../../components/Orders";
 import { useNavigate } from "react-router";
 import ProductsTable from "../../components/ProductsTable";
 
