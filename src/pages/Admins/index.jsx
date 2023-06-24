@@ -76,20 +76,17 @@ export default function AdminPage() {
   };
   const navigate = useNavigate();
 
+  axios.defaults.headers.common = { Authorization: "Bearerasdsaxacscac" };
+  axios.defaults.withCredentials = "true"
   React.useEffect(() => {
-    var myHeaders = new Headers();
-myHeaders.append("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjg3NTAxNDY1fQ.BlXN9HEdZHs2hYTAg5s49mAycEocqjlP5hW8I6jmBNQ");
-
-var requestOptions = {
-  method: 'GET',
-  headers: myHeaders,
-  // redirect: 'follow'
-};
-
-fetch("http://localhost:5050/markets", requestOptions)
-  .then(response => response.text())
-  .then(result => console.log(result))
-  .catch(error => console.log('error', error));
+    const article = { title: "Axios POST Request Example" };
+    const headers = {
+      Authorization: "Bearer my-token",
+      "My-Custom-Header": "foobar",
+    };
+    axios
+      .post("http://localhost:5000", article, { headers })
+      .then((response) => console.log(response));
   });
 
   console.log(markets);
