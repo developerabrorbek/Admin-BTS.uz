@@ -10,8 +10,7 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-
-// TODO remove, this demo shouldn't need to reset the theme.
+import axios from "axios";
 
 const defaultTheme = createTheme();
 
@@ -19,7 +18,16 @@ export default function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log(data)
+    console.log(data);
+    axios
+      .post("https://fakestoreapi.com/auth/login", {
+        username: "mor_2314",
+        password: "83r5^_",
+      })
+      .then((response) => {
+        localStorage.setItem("token", JSON.stringify(response.data.token));
+        localStorage.setItem("role", "admin");
+      });
   };
 
   return (

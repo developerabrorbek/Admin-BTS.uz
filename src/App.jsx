@@ -8,8 +8,10 @@ import ProfilePage from "./pages/Profile";
 import CustomersPage from "./pages/Customers";
 import ProductPage from "./pages/Products";
 import CategoriesPage from "./pages/Categories";
+import { useIsAuthCustom } from "./hooks/Auth.hook";
 
 const App = () => {
+  useIsAuthCustom()
   return (
     <>
       <Routes>

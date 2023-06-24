@@ -12,12 +12,13 @@ import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
+import axios from "axios";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems } from "../../components/listItems";
 import { useNavigate } from "react-router";
-import Admins from "../../components/Admins"
+import Admins from "../../components/Admins";
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -69,11 +70,29 @@ const defaultTheme = createTheme();
 
 export default function AdminPage() {
   const [open, setOpen] = React.useState(true);
+  const [markets, setMarkets] = React.useState({});
   const toggleDrawer = () => {
     setOpen(!open);
   };
-
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    var myHeaders = new Headers();
+myHeaders.append("Authorization", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6ImFkbWluIiwiaWF0IjoxNjg3NTAxNDY1fQ.BlXN9HEdZHs2hYTAg5s49mAycEocqjlP5hW8I6jmBNQ");
+
+var requestOptions = {
+  method: 'GET',
+  headers: myHeaders,
+  // redirect: 'follow'
+};
+
+fetch("http://localhost:5050/markets", requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
+  });
+
+  console.log(markets);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -127,9 +146,7 @@ export default function AdminPage() {
             </IconButton>
           </Toolbar>
           <Divider />
-          <List component="nav">
-            {mainListItems}
-          </List>
+          <List component="nav">{mainListItems}</List>
         </Drawer>
         <Box
           component="main"
@@ -147,7 +164,7 @@ export default function AdminPage() {
 
           <Grid item xs={12}>
             <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-              <Admins/>
+              <Admins />
             </Paper>
           </Grid>
         </Box>

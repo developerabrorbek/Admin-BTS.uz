@@ -15,6 +15,7 @@ import Paper from "@mui/material/Paper";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
+import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
 import { mainListItems } from "../../components/listItems";
 import { deepOrange } from "@mui/material/colors";
 import { useNavigate } from "react-router";
@@ -154,8 +155,8 @@ export default function ProfilePage() {
           <Toolbar />
 
           <Box sx={{ flexGrow: 1, padding: "12px" }}>
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
+            <Grid container spacing={2} sx={{ justifyContent: "space-evenly" }}>
+              <Grid item xs={5}>
                 <Item>
                   <div className="personal-datum">
                     <div className="head flex items-center justify-between border-b pb-4 mb-4">
@@ -187,8 +188,35 @@ export default function ProfilePage() {
                   </div>
                 </Item>
               </Grid>
-              <Grid item xs={4}>
-                <Item>xs=4</Item>
+              <Grid item xs={5}>
+                <Item>
+                  <div className="personal-datum">
+                    <div className="head flex items-center justify-between border-b pb-4 mb-4">
+                      <div className="body flex items-center gap-x-4">
+                        <div className="card flex items-center justify-center p-2 border border-[#475569] rounded-full">
+                          <CreditCardOutlinedIcon />
+                        </div>
+                        <h3 className="font-bold text-[16px]">
+                          Mening kartalarim
+                        </h3>
+                      </div>
+                      <Button variant="contained" color="success">Karta qo'shish</Button>
+                    </div>
+                    <div className="body p-3 ">
+                      <h3 className="name text-left mb-6 font-semibold text-[15px] text-[#4b4a4a]">
+                        Kartalar:
+                      </h3>
+                      <div className="number flex items-center gap-x-3 mb-2">
+                        <span className="tel text-[#1f2937] font-semibold">Uzcard: </span>
+                        <p className="text-black">4444 4444 4444 4444</p>
+                      </div>
+                      <div className="number flex items-center gap-x-3 mb-2">
+                        <span className="tel text-[#1f2937] font-semibold">Visa: </span>
+                        <p className="text-black">1111 1111 1111 1111</p>
+                      </div>
+                    </div>
+                  </div>
+                </Item>
               </Grid>
               <Grid item xs={4}>
                 <Item>xs=4</Item>
