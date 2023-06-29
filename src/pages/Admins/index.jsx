@@ -12,13 +12,13 @@ import IconButton from "@mui/material/IconButton";
 import Badge from "@mui/material/Badge";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import axios from "axios";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems } from "../../components/listItems";
 import { useNavigate } from "react-router";
 import Admins from "../../components/Admins";
+import { axiosInstance } from "../../configs/axios.config";
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -65,31 +65,29 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function AdminPage() {
   const [open, setOpen] = React.useState(true);
-  const [markets, setMarkets] = React.useState({});
+  const [admins, setAdmins] = React.useState(null);
   const toggleDrawer = () => {
     setOpen(!open);
   };
   const navigate = useNavigate();
 
-  axios.defaults.headers.common = { Authorization: "Bearerasdsaxacscac" };
-  axios.defaults.withCredentials = "true"
   React.useEffect(() => {
-    const article = { title: "Axios POST Request Example" };
-    const headers = {
-      Authorization: "Bearer my-token",
-      "My-Custom-Header": "foobar",
-    };
-    axios
-      .post("http://localhost:5000", article, { headers })
-      .then((response) => console.log(response));
-  });
-
-  console.log(markets);
+    try {
+      const allAdmins = axiosInstance.get("admin/list", {
+        headers : {
+          "Authorization" : "Bearer " + localStorage.getItem("token")
+        }
+      });
+    setAdmins(allAdmins);
+    } catch (error) {
+      console.log(error.name, ": ", error.message);
+    }
+  },[]);
+  console.log(admins)
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -98,7 +96,7 @@ export default function AdminPage() {
         <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
-              pr: "24px", // keep right padding when drawer closed
+              pr: "24px",
             }}
           >
             <IconButton

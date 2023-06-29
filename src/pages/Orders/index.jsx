@@ -18,6 +18,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems } from "../../components/listItems";
 import Orders from "../../components/Orders";
 import { useNavigate } from "react-router";
+import { axiosInstance } from "../../configs/axios.config";
 
 const drawerWidth = 240;
 
@@ -68,12 +69,27 @@ const Drawer = styled(MuiDrawer, {
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
+const getServiceOrders = async () => {
+  try {
+    const allServiceOrders = await axiosInstance("order-for-service/get/all");
+    return allServiceOrders.data.body
+  } catch (error) {
+    console.log(error.name, ": ", error.message);
+  }
+};
+
 export default function OrderPage() {
   const [open, setOpen] = React.useState(true);
+  const [serviceOrders, setServiceOrders] = React.useState();
   const toggleDrawer = () => {
     setOpen(!open);
   };
 
+  React.useEffect(() => {
+    setServiceOrders(getServiceOrders())
+  }, []);
+
+  console.log(serviceOrders)
   const navigate = useNavigate();
 
   return (
@@ -128,9 +144,7 @@ export default function OrderPage() {
             </IconButton>
           </Toolbar>
           <Divider />
-          <List component="nav">
-            {mainListItems}
-          </List>
+          <List component="nav">{mainListItems}</List>
         </Drawer>
         <Box
           component="main"

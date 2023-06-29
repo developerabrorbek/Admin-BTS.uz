@@ -10,25 +10,37 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import axios from "axios";
+import { axiosInstance } from "../../configs/axios.config";
+import { useIsAuthCustom } from "../../hooks/Auth.hook";
+import { useNavigate } from "react-router-dom";
 
 const defaultTheme = createTheme();
 
 export default function Login() {
-  const handleSubmit = (event) => {
+  const navigate = useNavigate()
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log(data);
-    axios
-      .post("https://fakestoreapi.com/auth/login", {
-        username: "mor_2314",
-        password: "83r5^_",
-      })
-      .then((response) => {
-        localStorage.setItem("token", JSON.stringify(response.data.token));
-        localStorage.setItem("role", "admin");
+    console.log(event.target.password.value);
+    const data = new FormData();
+    data.append("username", event.target.username.value);
+    data.append("password", event.target.password.value);
+
+    try {
+      const userData = await axiosInstance.post("auth/login", {
+        username: event.target.username.value,
+        password: event.target.password.value,
       });
+
+      if (userData.data.body.token) {
+        localStorage.setItem("token", userData.data.body.token);
+    navigate("/")
+      }
+    } catch (error) {
+      console.log(error)
+      console.log(error.name + ": " + error.message);
+    }
   };
+  useIsAuthCustom();
 
   return (
     <ThemeProvider theme={defaultTheme}>
