@@ -18,9 +18,10 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems } from "../../components/listItems";
 import { useNavigate } from "react-router";
 import ProductsTable from "../../components/ProductsTable";
+import { Button } from "@mui/material";
+import AddProductModal from "../../components/Modals/Products/add-product.modal";
 
 const drawerWidth = 240;
-
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
@@ -65,7 +66,6 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function ProductPage() {
@@ -83,7 +83,7 @@ export default function ProductPage() {
         <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
-              pr: "24px", // keep right padding when drawer closed
+              pr: "24px",
             }}
           >
             <IconButton
@@ -128,9 +128,7 @@ export default function ProductPage() {
             </IconButton>
           </Toolbar>
           <Divider />
-          <List component="nav">
-            {mainListItems}
-          </List>
+          <List component="nav">{mainListItems}</List>
         </Drawer>
         <Box
           component="main"
@@ -146,6 +144,9 @@ export default function ProductPage() {
         >
           <Toolbar />
 
+          <Grid item xs={12} sx={{ display: "grid", justifyItems: "end" }}>
+           <AddProductModal/>
+          </Grid>
           <Grid item xs={12}>
             <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
               <ProductsTable />
