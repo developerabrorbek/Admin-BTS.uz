@@ -71,12 +71,8 @@ const defaultTheme = createTheme();
 
 const getServiceOrders = () => {
   axiosInstance
-    .get("order-for-service/get/all", {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-    .then((response) => response.data.body)
+    .get("order-for-service/get/all")
+    .then((response) => console.log(response))
     .catch((error) => console.log(error.name, ": ", error.message));
 };
 

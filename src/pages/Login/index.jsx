@@ -10,8 +10,8 @@ import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { axiosInstance } from "../../configs/axios.config";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const defaultTheme = createTheme();
 
@@ -25,7 +25,7 @@ export default function Login() {
     data.append("password", event.target.password.value);
 
     try {
-      const userData = await axiosInstance.post("auth/login", {
+      const userData = await axios.post("https://rjavadev.jprq.live/api/v1/auth/login", {
         username: event.target.username.value,
         password: event.target.password.value,
       });
@@ -35,7 +35,6 @@ export default function Login() {
         navigate("/");
       }
     } catch (error) {
-      console.log(error);
       console.log(error.name + ": " + error.message);
     }
   };

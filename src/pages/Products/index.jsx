@@ -18,7 +18,6 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems } from "../../components/listItems";
 import { useNavigate } from "react-router";
 import ProductsTable from "../../components/ProductsTable";
-import { Button } from "@mui/material";
 import AddProductModal from "../../components/Modals/Products/add-product.modal";
 
 const drawerWidth = 240;
@@ -145,7 +144,7 @@ export default function ProductPage() {
           <Toolbar />
 
           <Grid item xs={12} sx={{ display: "grid", justifyItems: "end" }}>
-           <AddProductModal/>
+            <AddProductModal />
           </Grid>
           <Grid item xs={12}>
             <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>

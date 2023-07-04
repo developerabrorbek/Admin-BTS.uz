@@ -20,6 +20,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router";
 import CategoryTable from "../../components/CategoryTable";
 import { Button } from "@mui/material";
+import AddCategoryModal from "../../components/Modals/Category/add-category.modal";
 
 const drawerWidth = 240;
 
@@ -153,12 +154,7 @@ export default function CategoriesPage() {
                   All categories
                 </h2>
                 <div className="">
-                  <Button variant="contained" color="success">
-                    <IconButton>
-                      <AddIcon color="warning" />
-                    </IconButton>
-                    Add new category
-                  </Button>
+                  <AddCategoryModal/>
                 </div>
               </Paper>
             </Grid>

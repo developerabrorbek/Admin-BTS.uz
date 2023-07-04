@@ -77,17 +77,16 @@ export default function AdminPage() {
 
   React.useEffect(() => {
     try {
-      const allAdmins = axiosInstance.get("admin/list", {
-        headers : {
-          "Authorization" : "Bearer " + localStorage.getItem("token")
-        }
-      });
-    setAdmins(allAdmins);
+      axiosInstance
+        .get("admin/list")
+        .then((res) => setAdmins(res.data.body))
+        .catch((err) => console.log(err.name, ": ", err.message));
     } catch (error) {
       console.log(error.name, ": ", error.message);
     }
-  },[]);
-  console.log(admins)
+  }, []);
+
+  console.log(admins);
 
   return (
     <ThemeProvider theme={defaultTheme}>
