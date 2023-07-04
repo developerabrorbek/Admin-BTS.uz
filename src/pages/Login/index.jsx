@@ -11,13 +11,12 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { axiosInstance } from "../../configs/axios.config";
-import { useIsAuthCustom } from "../../hooks/Auth.hook";
 import { useNavigate } from "react-router-dom";
 
 const defaultTheme = createTheme();
 
 export default function Login() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(event.target.password.value);
@@ -31,16 +30,15 @@ export default function Login() {
         password: event.target.password.value,
       });
 
-      if (userData.data.body.token) {
+      if (userData.data?.body?.token) {
         localStorage.setItem("token", userData.data.body.token);
-    navigate("/")
+        navigate("/");
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       console.log(error.name + ": " + error.message);
     }
   };
-  useIsAuthCustom();
 
   return (
     <ThemeProvider theme={defaultTheme}>

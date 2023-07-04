@@ -20,6 +20,7 @@ import { mainListItems } from "../../components/listItems";
 import { deepOrange } from "@mui/material/colors";
 import { useNavigate } from "react-router";
 import { Avatar, Button } from "@mui/material";
+import ProfileUpdateModal from "../../components/Modals/Profile/profile-update.modal";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -75,8 +76,9 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
+
+
 
 export default function ProfilePage() {
   const [open, setOpen] = React.useState(true);
@@ -93,7 +95,7 @@ export default function ProfilePage() {
         <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
-              pr: "24px", // keep right padding when drawer closed
+              pr: "24px",
             }}
           >
             <IconButton
@@ -167,10 +169,10 @@ export default function ProfilePage() {
                           sx={{ bgcolor: deepOrange[500] }}
                         />
                         <h3 className="font-bold text-[16px]">
-                          Shaxsiy ma'lumotlarim
+                          Shaxsiy malumotlarim
                         </h3>
                       </div>
-                      <Button variant="contained">O'zgartirish</Button>
+                      <ProfileUpdateModal/>
                     </div>
                     <div className="body p-3 ">
                       <h3 className="name text-left mb-6 font-semibold text-[15px] text-[#4b4a4a]">
@@ -200,18 +202,24 @@ export default function ProfilePage() {
                           Mening kartalarim
                         </h3>
                       </div>
-                      <Button variant="contained" color="success">Karta qo'shish</Button>
+                      <Button variant="contained" color="success">
+                        Karta qoshish
+                      </Button>
                     </div>
                     <div className="body p-3 ">
                       <h3 className="name text-left mb-6 font-semibold text-[15px] text-[#4b4a4a]">
                         Kartalar:
                       </h3>
                       <div className="number flex items-center gap-x-3 mb-2">
-                        <span className="tel text-[#1f2937] font-semibold">Uzcard: </span>
+                        <span className="tel text-[#1f2937] font-semibold">
+                          Uzcard:{" "}
+                        </span>
                         <p className="text-black">4444 4444 4444 4444</p>
                       </div>
                       <div className="number flex items-center gap-x-3 mb-2">
-                        <span className="tel text-[#1f2937] font-semibold">Visa: </span>
+                        <span className="tel text-[#1f2937] font-semibold">
+                          Visa:{" "}
+                        </span>
                         <p className="text-black">1111 1111 1111 1111</p>
                       </div>
                     </div>

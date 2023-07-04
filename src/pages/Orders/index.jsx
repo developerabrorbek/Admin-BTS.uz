@@ -69,13 +69,15 @@ const Drawer = styled(MuiDrawer, {
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-const getServiceOrders = async () => {
-  try {
-    const allServiceOrders = await axiosInstance("order-for-service/get/all");
-    return allServiceOrders.data.body
-  } catch (error) {
-    console.log(error.name, ": ", error.message);
-  }
+const getServiceOrders = () => {
+  axiosInstance
+    .get("order-for-service/get/all", {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    })
+    .then((response) => response.data.body)
+    .catch((error) => console.log(error.name, ": ", error.message));
 };
 
 export default function OrderPage() {
@@ -86,10 +88,10 @@ export default function OrderPage() {
   };
 
   React.useEffect(() => {
-    setServiceOrders(getServiceOrders())
+    setServiceOrders(getServiceOrders());
   }, []);
 
-  console.log(serviceOrders)
+  console.log(serviceOrders);
   const navigate = useNavigate();
 
   return (

@@ -8,30 +8,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
-import EditIcon from "@mui/icons-material/Edit";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import Tooltip from "@mui/material/Tooltip";
-import { green } from "@mui/material/colors";
-import { IconButton } from "@mui/material";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
 import Title from "../Title";
+import OrderUpdateModal from "../Modals/Orders/orders-update.modal";
+import OrderDeleteModal from "../Modals/Orders/delete-order.modal";
 
-const style = {
-	position: "absolute",
-	top: "50%",
-	left: "50%",
-	transform: "translate(-50%, -50%)",
-	width: 400,
-	bgcolor: "background.paper",
-	border: "2px solid #000",
-	boxShadow: 24,
-	p: 4,
-};
-
-
-// Generate Order Data
 function createData(
 	id,
 	date,
@@ -113,16 +94,11 @@ const users = [
 		"Done",
 	),
 ];
-// console.log(rows);
 function preventDefault(event) {
 	event.preventDefault();
 }
 
 export default function Orders() {
-
-	const [open, setOpen] = React.useState(false);
-	const handleOpen = () => setOpen(true);
-	const handleClose = () => setOpen(false);
 
 	const rows = [];
 	const [user, setUser] = useState("All");
@@ -163,24 +139,6 @@ export default function Orders() {
 				</Button>
 			</Stack>
 
-			<div>
-				<Modal
-					open={open}
-					onClose={handleClose}
-					aria-labelledby="modal-modal-title"
-					aria-describedby="modal-modal-description"
-				>
-					<Box sx={style}>
-						<Typography id="modal-modal-title" variant="h6" component="h2">
-							Edit button
-						</Typography>
-						<Typography id="modal-modal-description" sx={{ mt: 2 }}>
-							Modal
-						</Typography>
-					</Box>
-				</Modal>
-			</div>
-
 			<Title>Recent Orders</Title>
 			<Table size="small">
 				<TableHead>
@@ -207,17 +165,11 @@ export default function Orders() {
 							<TableCell>{row.status}</TableCell>
 							<TableCell align="left">{`$${row.amount}`}</TableCell>
 							<TableCell>
-								<Tooltip onClick={handleOpen} data-id={row.id} title="edit">
-									<IconButton>
-										<EditIcon sx={{ color: green[500] }} />
-									</IconButton>
-								</Tooltip>
+								<OrderUpdateModal/>
 							</TableCell>
 							<TableCell>
 								<Tooltip data-id={row.id} title="delete">
-									<IconButton>
-										<DeleteForeverIcon color="error" />
-									</IconButton>
+									<OrderDeleteModal/>
 								</Tooltip>
 							</TableCell>
 						</TableRow>
