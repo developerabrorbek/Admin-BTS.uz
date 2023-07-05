@@ -16,11 +16,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems } from "../../components/listItems";
-import AddIcon from "@mui/icons-material/Add";
 import { useNavigate } from "react-router";
 import CategoryTable from "../../components/CategoryTable";
-import { Button } from "@mui/material";
 import AddCategoryModal from "../../components/Modals/Category/add-category.modal";
+import { axiosInstance } from "../../configs/axios.config";
 
 const drawerWidth = 240;
 
@@ -68,7 +67,6 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function CategoriesPage() {
@@ -154,7 +152,7 @@ export default function CategoriesPage() {
                   All categories
                 </h2>
                 <div className="">
-                  <AddCategoryModal/>
+                  <AddCategoryModal />
                 </div>
               </Paper>
             </Grid>
