@@ -78,13 +78,13 @@ const Drawer = styled(MuiDrawer, {
 
 const defaultTheme = createTheme();
 
-
-
 export default function ProfilePage() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
   };
+
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const navigate = useNavigate();
 
@@ -164,7 +164,7 @@ export default function ProfilePage() {
                     <div className="head flex items-center justify-between border-b pb-4 mb-4">
                       <div className="body flex items-center gap-x-4">
                         <Avatar
-                          alt="Abrorbek Abdulxamidov"
+                          alt={`${user?.firstname}`}
                           src="/static/images/avatar/1.jpg"
                           sx={{ bgcolor: deepOrange[500] }}
                         />
@@ -172,19 +172,19 @@ export default function ProfilePage() {
                           Shaxsiy malumotlarim
                         </h3>
                       </div>
-                      <ProfileUpdateModal/>
+                      <ProfileUpdateModal id={user?.id}/>
                     </div>
                     <div className="body p-3 ">
                       <h3 className="name text-left mb-6 font-semibold text-[15px] text-[#4b4a4a]">
-                        Abrorbek Abdulxamidov
+                        {`${user?.firstname} ${user?.lastname} `}
                       </h3>
                       <div className="number flex items-center gap-x-3 mb-2">
                         <span className="tel">Telefon:</span>
-                        <p className="text-black">+99893 999 99 99</p>
+                        <p className="text-black">{`${user?.phoneNumber}`}</p>
                       </div>
                       <div className="role flex items-center gap-x-3">
                         <span>Role: </span>
-                        <p className="text-black">Admin</p>
+                        <p className="text-black">{`${user?.roleEnumList[0]}`}</p>
                       </div>
                     </div>
                   </div>

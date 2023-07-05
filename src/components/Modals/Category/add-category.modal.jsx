@@ -24,10 +24,14 @@ const style = {
 };
 
 const AddCategory = (data) => {
-  axiosInstance
-    .post("category/add", data)
-    .then((res) => console.log(res.data))
-    .catch((err) => console.log(err.name, ": ", err.message));
+  try {
+    axiosInstance
+      .post("category/add", data)
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err));
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export default function AddCategoryModal() {
@@ -39,13 +43,14 @@ export default function AddCategoryModal() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    console.log(data);
     setMessage({
       name: data.get("name"),
       type: data.get("type"),
     });
   };
 
-  React.useEffect(() => AddCategory(message), []);
+  React.useEffect(() => AddCategory(message), [message]);
 
   return (
     <div>

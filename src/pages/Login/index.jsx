@@ -19,18 +19,17 @@ export default function Login() {
   const navigate = useNavigate();
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(event.target.password.value);
-    const data = new FormData();
-    data.append("username", event.target.username.value);
-    data.append("password", event.target.password.value);
-
     try {
-      const userData = await axios.post("https://rjavadev.jprq.live/api/v1/auth/login", {
-        username: event.target.username.value,
-        password: event.target.password.value,
-      });
+      const userData = await axios.post(
+        "https://rjavadev.jprq.live/api/v1/auth/login",
+        {
+          username: event.target.username.value,
+          password: event.target.password.value,
+        }
+      );
 
       if (userData.data?.body?.token) {
+        localStorage.setItem("user", JSON.stringify(userData.data.body.user));
         localStorage.setItem("token", userData.data.body.token);
         navigate("/");
       }

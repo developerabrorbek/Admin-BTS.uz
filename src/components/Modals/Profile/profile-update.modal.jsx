@@ -23,25 +23,21 @@ const style = {
 
 const updateProfile = (newData, id) => {
   axiosInstance
-    .patch(`profile/update/${id}`, newData, {
-      Headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
+    .put(`user/update/${id}`, newData)
     .then((res) => console.log(res.data))
     .catch((err) => console.log(err.name, ": ", err.message));
 };
 
-export default function ProfileUpdateModal() {
+export default function ProfileUpdateModal({ id }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [message, setMessage] = React.useState({});
+  const [data, setData] = React.useState({});
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    setMessage({
+    setData({
       phoneNumber: data.get("number"),
       password: data.get("password"),
       firstname: data.get("firstName"),
@@ -51,7 +47,7 @@ export default function ProfileUpdateModal() {
     });
   };
 
-  React.useEffect(() => updateProfile(message, 1), [message]);
+  React.useEffect(() => updateProfile(data, id), [id, data]);
 
   return (
     <div>
