@@ -19,7 +19,6 @@ import { mainListItems } from "../../components/listItems";
 import { useNavigate } from "react-router";
 import CategoryTable from "../../components/CategoryTable";
 import AddCategoryModal from "../../components/Modals/Category/add-category.modal";
-import { axiosInstance } from "../../configs/axios.config";
 
 const drawerWidth = 240;
 
@@ -84,7 +83,7 @@ export default function CategoriesPage() {
         <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
-              pr: "24px", // keep right padding when drawer closed
+              pr: "24px", 
             }}
           >
             <IconButton

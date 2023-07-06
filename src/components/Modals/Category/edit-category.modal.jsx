@@ -36,7 +36,7 @@ const UpdateCategory = (id, data) => {
 
 export default function EditCategoryModal({ id, name }) {
   const [open, setOpen] = React.useState(false);
-  const [update, setUpdate] = React.useState(false)
+  const [update, setUpdate] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [data, setData] = React.useState({});
@@ -114,7 +114,7 @@ export default function EditCategoryModal({ id, name }) {
                 </Grid>
 
                 <Button
-                onClick={() => setUpdate(true)}
+                  onClick={() => setUpdate(true)}
                   type="submit"
                   fullWidth
                   variant="contained"
