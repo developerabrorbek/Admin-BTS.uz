@@ -36,6 +36,7 @@ const AddCategory = (data) => {
 
 export default function AddCategoryModal() {
   const [open, setOpen] = React.useState(false);
+  const [submit, setSubmit] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [message, setMessage] = React.useState({});
@@ -43,14 +44,15 @@ export default function AddCategoryModal() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log(data);
     setMessage({
       name: data.get("name"),
       type: data.get("type"),
     });
   };
 
-  React.useEffect(() => AddCategory(message), [message]);
+  React.useEffect(() => {
+    if (open && submit) AddCategory(message);
+  }, [message, open, submit]);
 
   return (
     <div>
@@ -115,6 +117,7 @@ export default function AddCategoryModal() {
                 </Grid>
 
                 <Button
+                  onClick={() => setSubmit(true)}
                   type="submit"
                   fullWidth
                   variant="contained"

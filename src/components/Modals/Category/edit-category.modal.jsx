@@ -7,7 +7,7 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import { axiosInstance } from "../../../configs/axios.config";
 import { IconButton, Tooltip } from "@mui/material";
-import AddBoxIcon from "@mui/icons-material/AddBox";
+import EditIcon from "@mui/icons-material/Edit";
 
 const style = {
   position: "absolute",
@@ -23,10 +23,10 @@ const style = {
   p: 4,
 };
 
-const AddSubcategory = (data) => {
+const UpdateCategory = (id, data) => {
   try {
     axiosInstance
-      .post("category/add", data)
+      .post(`category/update/${id}`, data)
       .then((res) => console.log(res.data))
       .catch((err) => console.log(err));
   } catch (error) {
@@ -34,32 +34,31 @@ const AddSubcategory = (data) => {
   }
 };
 
-export default function AddSubcategoryModal({ id, name }) {
+export default function EditCategoryModal({ id, name }) {
   const [open, setOpen] = React.useState(false);
-  const [submit, setSubmit] = React.useState(false);
+  const [update, setUpdate] = React.useState(false)
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [message, setMessage] = React.useState({});
+  const [data, setData] = React.useState({});
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    setMessage({
-      parentId: id,
+    setData({
       name: data.get("name"),
       type: data.get("type"),
     });
   };
 
   React.useEffect(() => {
-    if (open && submit) AddSubcategory(message);
-  }, [message, open, submit]);
+    if (open && update) UpdateCategory(id, data);
+  }, [data, id, open, update]);
 
   return (
     <div>
-      <Tooltip onClick={handleOpen} title="add subcategory">
+      <Tooltip onClick={handleOpen} title="edit category">
         <IconButton>
-          <AddBoxIcon sx={{ color: "purple", fontSize: "30px" }} />
+          <EditIcon sx={{ color: "green" }} />
         </IconButton>
       </Tooltip>
       <Modal
@@ -75,8 +74,7 @@ export default function AddSubcategoryModal({ id, name }) {
             component="h2"
             sx={{ fontWeight: "bold", fontSize: "28px", color: "#ff2171" }}
           >
-            Add new subcategory to{" "}
-            <span className="text-[#1d1a05]">{name}</span>
+            Edit <span className="text-[#1d1a05]">{name}</span> category
           </Typography>
           <Box
             component="form"
@@ -116,14 +114,14 @@ export default function AddSubcategoryModal({ id, name }) {
                 </Grid>
 
                 <Button
-                onClick={() => setSubmit(true)}
+                onClick={() => setUpdate(true)}
                   type="submit"
                   fullWidth
                   variant="contained"
                   xs={12}
                   sx={{ mt: 3, mb: 2, ml: 2 }}
                 >
-                  Add subcategory
+                  Update category
                 </Button>
               </Grid>
             </Box>

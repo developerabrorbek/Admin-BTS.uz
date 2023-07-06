@@ -6,12 +6,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import {
-  DeleteIconCustom,
-  EditIconCustom,
-} from "../Icons";
+import { DeleteIconCustom, EditIconCustom } from "../Icons";
 import { axiosInstance } from "../../configs/axios.config";
 import AddSubcategoryModal from "../Modals/Category/add-subcategory.modal";
+import EditCategoryModal from "../Modals/Category/edit-category.modal";
+import DeleteCategoryModal from "../Modals/Category/delete-category.modal";
 
 const getAllCategories = async (setData) => {
   try {
@@ -22,15 +21,14 @@ const getAllCategories = async (setData) => {
   }
 };
 
-
-const deleteCategory = async (id) => {
-  try {
-    const data = await axiosInstance.delete(`category/delete/${id}`);
-    return data.data;
-  } catch (error) {
-    console.log(error.message);
-  }
-};
+// const deleteCategory = async (id) => {
+//   try {
+//     const data = await axiosInstance.delete(`category/delete/${id}`);
+//     return data.data;
+//   } catch (error) {
+//     console.log(error.message);
+//   }
+// };
 
 export default function CategoryTable() {
   const [categories, setCategories] = React.useState([]);
@@ -62,21 +60,13 @@ export default function CategoryTable() {
               </TableCell>
               <TableCell align="center">{row.type}</TableCell>
               <TableCell align="center">
-                <AddSubcategoryModal id={row.id} name={row.name}/>
+                <AddSubcategoryModal id={row.id} name={row.name} />
               </TableCell>
               <TableCell align="right">
-                <EditIconCustom />
+                <EditCategoryModal id={row.id} name={row.name} />
               </TableCell>
               <TableCell align="right">
-                <div
-                  className="delete-category"
-                  onClick={() => {
-                    deleteCategory(row.id);
-                    getAllCategories(setCategories);
-                  }}
-                >
-                  <DeleteIconCustom />
-                </div>
+                <DeleteCategoryModal id={row.id} name={row.name}/>
               </TableCell>
             </TableRow>
           ))}
