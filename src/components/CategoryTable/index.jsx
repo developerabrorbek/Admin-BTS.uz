@@ -7,29 +7,21 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import {
-  AddSubCategoryIconCustom,
   DeleteIconCustom,
   EditIconCustom,
 } from "../Icons";
 import { axiosInstance } from "../../configs/axios.config";
+import AddSubcategoryModal from "../Modals/Category/add-subcategory.modal";
 
 const getAllCategories = async (setData) => {
   try {
-    const allCategories = await axiosInstance.get("category/get/all");
-    setData(allCategories.data.body);
+    const data = await axiosInstance.get("category/get/all");
+    setData(data.data.body);
   } catch (error) {
     console.log(error.message);
   }
 };
 
-const editCategory = async (id, newData) => {
-  try {
-    const data = await axiosInstance.patch(`category/update/${id}`, newData);
-    return data.data;
-  } catch (error) {
-    console.log(error.message);
-  }
-};
 
 const deleteCategory = async (id) => {
   try {
@@ -70,12 +62,7 @@ export default function CategoryTable() {
               </TableCell>
               <TableCell align="center">{row.type}</TableCell>
               <TableCell align="center">
-                <div
-                  className="add-subcategory"
-                  onClick={() => editCategory(row.id)}
-                >
-                  <AddSubCategoryIconCustom />
-                </div>
+                <AddSubcategoryModal id={row.id} name={row.name}/>
               </TableCell>
               <TableCell align="right">
                 <EditIconCustom />
