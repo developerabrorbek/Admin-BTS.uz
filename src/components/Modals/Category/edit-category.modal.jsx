@@ -26,7 +26,7 @@ const style = {
 const UpdateCategory = (id, data) => {
   try {
     axiosInstance
-      .post(`category/update/${id}`, data)
+      .patch(`category/update/${id}`, data)
       .then((res) => console.log(res.data))
       .catch((err) => console.log(err));
   } catch (error) {
@@ -49,6 +49,7 @@ export default function EditCategoryModal({ id, name }) {
       type: data.get("type"),
     });
   };
+
 
   React.useEffect(() => {
     if (open && update) UpdateCategory(id, data);

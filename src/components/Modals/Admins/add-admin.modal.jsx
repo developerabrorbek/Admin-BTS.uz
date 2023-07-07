@@ -5,15 +5,16 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
 import { axiosInstance } from "../../../configs/axios.config";
-import { Tooltip } from "@mui/material";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
-  width : "600px",
   transform: "translate(-50%, -50%)",
+  width: "600px",
   display: "flex",
   alignItems: "center",
   flexDirection: "column",
@@ -23,56 +24,61 @@ const style = {
   p: 4,
 };
 
-const addProduct = (newData, id) => {
-  axiosInstance
-    .patch(`product/add/${id}`, newData, {
-      Headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-    .then((res) => console.log(res.data))
-    .catch((err) => console.log(err.name, ": ", err.message));
+const getRoles = (setRoles) => {
+  try {
+    axiosInstance
+      .get("admin/get/roles")
+      .then((data) => {setRoles(data.data); console.log(data)})
+      .catch((err) => console.log(err.message));
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
-export default function AddProductModal() {
+const addAdmin = (data) => {
+  try {
+    axiosInstance
+      .post("admin/add", data)
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err.name, ": ", err.message));
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export default function AddAdminModal() {
   const [open, setOpen] = React.useState(false);
-  const [submit, setSubmit] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [message, setMessage] = React.useState({});
+  const [data, setData] = React.useState({});
+  const [submit, setSubmit] = React.useState(false);
+  const [roles, setRoles] = React.useState([]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    setMessage({
+    setData({
       phoneNumber: data.get("number"),
       password: data.get("password"),
       firstname: data.get("firstName"),
       lastname: data.get("lastName"),
+      roles: data.get("role"),
       username: data.get("username"),
       birtDate: data.get("birthDate"),
     });
   };
 
+  React.useEffect(() => getRoles(setRoles), []);
+
   React.useEffect(() => {
-    if (open && submit) addProduct(message, 1);
-  }, [message, open, submit]);
+    if (submit) addAdmin(data);
+  }, [data, submit]);
 
   return (
     <div>
-      <Tooltip onClick={handleOpen} title="add product">
-        <Button
-          variant="contained"
-          color="secondary"
-          sx={{
-            alignSelf: "right",
-            margin: "8px",
-            display: "inline-block",
-          }}
-        >
-          Add Product
-        </Button>
-      </Tooltip>
+      <Button variant="contained" onClick={handleOpen}>
+        Add admin
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -86,7 +92,7 @@ export default function AddProductModal() {
             component="h2"
             sx={{ fontWeight: "bold", fontSize: "28px", color: "#ff2171" }}
           >
-            Add new product
+            Enter admin&apos;s information
           </Typography>
           <Box
             component="form"
@@ -135,6 +141,27 @@ export default function AddProductModal() {
                   />
                 </Grid>
                 <Grid item xs={12}>
+                  <Select
+                    id="role"
+                    name="role"
+                    displayEmpty
+                    inputProps={{ "aria-label": "Without label" }}
+                  >
+                    <MenuItem value="" disabled>
+                      <em>Select roles</em>
+                    </MenuItem>
+                    {/* {roles &&
+                      roles.map((role) => {
+                        return (
+                          <MenuItem key={role} value={role}>
+                            {role}
+                          </MenuItem>
+                        );
+                      })} */}
+                      <MenuItem value="salom" >admin</MenuItem>
+                  </Select>
+                </Grid>
+                <Grid item xs={12}>
                   <TextField
                     required
                     fullWidth
@@ -173,7 +200,7 @@ export default function AddProductModal() {
                   xs={12}
                   sx={{ mt: 3, mb: 2, ml: 2 }}
                 >
-                  Update
+                  Add
                 </Button>
               </Grid>
             </Box>

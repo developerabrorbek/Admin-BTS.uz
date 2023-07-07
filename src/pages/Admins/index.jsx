@@ -19,6 +19,7 @@ import { mainListItems } from "../../components/listItems";
 import { useNavigate } from "react-router";
 import Admins from "../../components/Admins";
 import { axiosInstance } from "../../configs/axios.config";
+import AddAdminModal from "../../components/Modals/Admins/add-admin.modal";
 const drawerWidth = 240;
 
 const AppBar = styled(MuiAppBar, {
@@ -155,7 +156,9 @@ export default function AdminPage() {
           }}
         >
           <Toolbar />
-
+          <Box sx={{margin : "24px", display : "flex", alignItems : "end", justifyContent : "end"}}>
+            <AddAdminModal/>
+          </Box>
           <Grid item xs={12}>
             <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
               <Admins />
