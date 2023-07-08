@@ -8,6 +8,7 @@ import Grid from "@mui/material/Grid";
 import { axiosInstance } from "../../../configs/axios.config";
 import { IconButton, Tooltip } from "@mui/material";
 import AddBoxIcon from "@mui/icons-material/AddBox";
+import Toaster from "../../Toaster";
 
 const style = {
   position: "absolute",
@@ -27,8 +28,8 @@ const AddSubcategory = (data) => {
   try {
     axiosInstance
       .post("category/add", data)
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err));
+      .then(() => Toaster.notify(200, "Subcategory added successfully!"))
+      .catch((err) => Toaster.notify(400, err.message));
   } catch (error) {
     console.log(error);
   }
@@ -116,7 +117,7 @@ export default function AddSubcategoryModal({ id, name }) {
                 </Grid>
 
                 <Button
-                onClick={() => setSubmit(true)}
+                  onClick={() => {setSubmit(true); Toaster.notify(300, "Request send");}}
                   type="submit"
                   fullWidth
                   variant="contained"

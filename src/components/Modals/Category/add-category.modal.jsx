@@ -8,6 +8,7 @@ import Grid from "@mui/material/Grid";
 import { axiosInstance } from "../../../configs/axios.config";
 import { IconButton, Tooltip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import Toaster from "../../Toaster";
 
 const style = {
   position: "absolute",
@@ -27,8 +28,8 @@ const AddCategory = (data) => {
   try {
     axiosInstance
       .post("category/add", data)
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err));
+      .then(() => Toaster.notify(200, "Category added!"))
+      .catch((err) => Toaster.notify(404, err.message));
   } catch (error) {
     console.log(error);
   }
@@ -51,7 +52,7 @@ export default function AddCategoryModal() {
   };
 
   React.useEffect(() => {
-    if (open && submit) AddCategory(message);
+    if (open && submit && message) AddCategory(message);
   }, [message, open, submit]);
 
   return (
@@ -117,7 +118,7 @@ export default function AddCategoryModal() {
                 </Grid>
 
                 <Button
-                  onClick={() => setSubmit(true)}
+                  onClick={() => {setSubmit(!submit); Toaster.notify(300, "Request send");}}
                   type="submit"
                   fullWidth
                   variant="contained"

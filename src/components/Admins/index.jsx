@@ -17,7 +17,6 @@ const Admins = () => {
   }, []);
 
 
-	console.log(admins)
 
   return (
     <>

@@ -6,6 +6,7 @@ import { axiosInstance } from "../../../configs/axios.config";
 import { IconButton, Tooltip } from "@mui/material";
 import Button from "@mui/material/Button";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import Toaster from "../../Toaster";
 
 const style = {
   position: "absolute",
@@ -24,6 +25,7 @@ const style = {
 const deleteCategory = async (id) => {
   try {
     const data = await axiosInstance.delete(`category/delete/${id}`);
+    Toaster.notify(200, "Deleted successfully");
     return data.data;
   } catch (error) {
     console.log(error.message);
@@ -70,7 +72,7 @@ export default function DeleteCategoryModal({ id, name }) {
             <span className="text-[#1d1a05]">{name}</span> category
           </Typography>
           <Button
-            onClick={() => setSubmit(true)}
+            onClick={() => {setSubmit(true); Toaster.notify(300, "Request send");}}
             type="submit"
             fullWidth
             variant="contained"

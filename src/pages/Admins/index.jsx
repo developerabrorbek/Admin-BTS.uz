@@ -74,8 +74,6 @@ export default function AdminPage() {
   };
   const navigate = useNavigate();
 
-
-
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: "flex" }}>
@@ -143,8 +141,15 @@ export default function AdminPage() {
           }}
         >
           <Toolbar />
-          <Box sx={{margin : "24px", display : "flex", alignItems : "end", justifyContent : "end"}}>
-            <AddAdminModal/>
+          <Box
+            sx={{
+              margin: "24px",
+              display: "flex",
+              alignItems: "end",
+              justifyContent: "end",
+            }}
+          >
+            <AddAdminModal />
           </Box>
           <Grid item xs={12}>
             <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>

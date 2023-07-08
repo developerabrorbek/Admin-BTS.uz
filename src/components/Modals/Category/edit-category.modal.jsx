@@ -8,6 +8,7 @@ import Grid from "@mui/material/Grid";
 import { axiosInstance } from "../../../configs/axios.config";
 import { IconButton, Tooltip } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import Toaster from "../../Toaster";
 
 const style = {
   position: "absolute",
@@ -27,8 +28,8 @@ const UpdateCategory = (id, data) => {
   try {
     axiosInstance
       .patch(`category/update/${id}`, data)
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err));
+      .then(() => Toaster.notify(300, "Successfully updated!"))
+      .catch((err) => Toaster.notify(400, err.message));
   } catch (error) {
     console.log(error);
   }
@@ -49,7 +50,6 @@ export default function EditCategoryModal({ id, name }) {
       type: data.get("type"),
     });
   };
-
 
   React.useEffect(() => {
     if (open && update) UpdateCategory(id, data);
@@ -115,7 +115,10 @@ export default function EditCategoryModal({ id, name }) {
                 </Grid>
 
                 <Button
-                  onClick={() => setUpdate(true)}
+                  onClick={() => {
+                    setUpdate(!update);
+                    Toaster.notify(300, "Request send");
+                  }}
                   type="submit"
                   fullWidth
                   variant="contained"
