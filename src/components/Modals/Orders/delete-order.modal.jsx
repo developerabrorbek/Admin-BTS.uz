@@ -36,7 +36,6 @@ export default function OrderDeleteModal() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-
   React.useEffect(() => deleteOrder(1), []);
 
   return (

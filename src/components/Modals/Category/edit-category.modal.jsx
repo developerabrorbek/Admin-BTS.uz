@@ -116,6 +116,7 @@ export default function EditCategoryModal({ id, name }) {
 
                 <Button
                   onClick={() => {
+                    setTimeout(() => setOpen(false), 1000);
                     setUpdate(!update);
                     Toaster.notify(300, "Request send");
                   }}

@@ -3,9 +3,8 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import { axiosInstance } from "../../../configs/axios.config";
-import { IconButton, Tooltip } from "@mui/material";
+import { Tooltip } from "@mui/material";
 import Button from "@mui/material/Button";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import Toaster from "../../Toaster";
 
 const style = {
@@ -22,9 +21,9 @@ const style = {
   p: 4,
 };
 
-const deleteCategory = async (id) => {
+const deleteAdmin = async (id) => {
   try {
-    const data = await axiosInstance.delete(`category/delete/${id}`);
+    const data = await axiosInstance.delete(`admin/delete/${id}`);
     Toaster.notify(200, "Deleted successfully");
     return data.data;
   } catch (error) {
@@ -32,22 +31,22 @@ const deleteCategory = async (id) => {
   }
 };
 
-export default function DeleteCategoryModal({ id, name }) {
+export default function DeleteAdminModal({ id, name }) {
   const [open, setOpen] = React.useState(false);
   const [submit, setSubmit] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   React.useEffect(() => {
-    if (open && submit) deleteCategory(id);
+    if (open && submit) deleteAdmin(id);
   }, [id, open, submit]);
 
   return (
     <div>
-      <Tooltip onClick={handleOpen} title="delete category">
-        <IconButton>
-          <DeleteForeverIcon color="error" />
-        </IconButton>
+      <Tooltip onClick={handleOpen} title="delete admin">
+        <Button variant="outlined" color="error">
+          Delete admin
+        </Button>
       </Tooltip>
       <Modal
         open={open}
@@ -68,8 +67,8 @@ export default function DeleteCategoryModal({ id, name }) {
               textAlign: "center",
             }}
           >
-            Do you really want to delete{" "}
-            <span className="text-[#1d1a05]">{name}</span> category
+            Do you really want to delete admin{" "}
+            <span className="text-[#1d1a05]">{name}</span>
           </Typography>
           <Button
             onClick={() => {

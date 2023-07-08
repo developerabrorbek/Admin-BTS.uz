@@ -117,7 +117,11 @@ export default function AddSubcategoryModal({ id, name }) {
                 </Grid>
 
                 <Button
-                  onClick={() => {setSubmit(true); Toaster.notify(300, "Request send");}}
+                  onClick={() => {
+                    setTimeout(() => setOpen(false), 1000);
+                    setSubmit(true);
+                    Toaster.notify(300, "Request send");
+                  }}
                   type="submit"
                   fullWidth
                   variant="contained"

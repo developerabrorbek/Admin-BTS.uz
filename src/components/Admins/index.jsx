@@ -1,6 +1,9 @@
 import * as React from "react";
 import { Button } from "@mui/material";
 import { axiosInstance } from "../../configs/axios.config";
+import DeleteAdminModal from "../Modals/Admins/delete-admin.modal";
+
+
 
 const Admins = () => {
   const [admins, setAdmins] = React.useState(null);
@@ -38,9 +41,7 @@ const Admins = () => {
                         <p className="name mb-6">{admin.firstname}</p>
                         <span className="btns grid gap-y-2">
                           <Button variant="contained">Show profile</Button>
-                          <Button variant="outlined" color="error">
-                            Delete admin
-                          </Button>
+                          <DeleteAdminModal id={admin.id} name={admin.firstname}/>
                         </span>
                       </li>
                     </>
