@@ -185,15 +185,18 @@ export default function AddAdminModal() {
                   />
                 </Grid>
                 <Grid item xs={12}>
+                  <label
+                    htmlFor="role"
+                    className="mr-4 text-[18px] font-semibold"
+                  >
+                    Select role
+                  </label>
                   <Select
                     id="role"
                     name="role"
                     displayEmpty
                     inputProps={{ "aria-label": "Without label" }}
                   >
-                    <MenuItem value="" disabled>
-                      <em>Select roles</em>
-                    </MenuItem>
                     {roles.length &&
                       roles.map((role) => {
                         return (
@@ -237,6 +240,7 @@ export default function AddAdminModal() {
                 </Grid>
                 <Button
                   onClick={() => {
+                    setTimeout(() => setOpen(false), 1000);
                     setSubmit(true);
                     Toaster.notify(300, "Successfully send!");
                   }}
