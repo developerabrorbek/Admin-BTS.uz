@@ -8,6 +8,8 @@ import Grid from "@mui/material/Grid";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { axiosInstance } from "../../../configs/axios.config";
+import axios from "axios";
+import Toaster from "../../Toaster";
 
 const style = {
   position: "absolute",
@@ -28,7 +30,9 @@ const getRoles = (setRoles) => {
   try {
     axiosInstance
       .get("admin/get/roles")
-      .then((data) => {setRoles(data.data); console.log(data)})
+      .then((data) => {
+        setRoles(data.data.body);
+      })
       .catch((err) => console.log(err.message));
   } catch (error) {
     console.log(error.message);
@@ -39,8 +43,21 @@ const addAdmin = (data) => {
   try {
     axiosInstance
       .post("admin/add", data)
-      .then((res) => console.log(res.data))
+      .then(() => Toaster.notify(200, "Successfully added!"))
       .catch((err) => console.log(err.name, ": ", err.message));
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+const uploadImage = async (formData, setId) => {
+  try {
+    const { data } = await axios.post(
+      "https://rjavadev.jprq.live/attach/upload",
+      formData
+    );
+    setId(data.body.id);
+    return data.id;
   } catch (error) {
     console.log(error.message);
   }
@@ -50,29 +67,42 @@ export default function AddAdminModal() {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [data, setData] = React.useState({});
   const [submit, setSubmit] = React.useState(false);
+  const [data, setData] = React.useState({});
   const [roles, setRoles] = React.useState([]);
+  const [image, setImage] = React.useState(null);
+  const [attachId, setAttachId] = React.useState(0);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    const formData = new FormData(event.currentTarget);
+    const upload = new FormData();
+
+    upload.append("file", image);
+
+    uploadImage(upload, setAttachId);
+
     setData({
-      phoneNumber: data.get("number"),
-      password: data.get("password"),
-      firstname: data.get("firstName"),
-      lastname: data.get("lastName"),
-      roles: data.get("role"),
-      username: data.get("username"),
-      birtDate: data.get("birthDate"),
+      attachId: attachId,
+      phoneNumber: formData.get("number"),
+      password: formData.get("password"),
+      firstname: formData.get("firstName"),
+      lastname: formData.get("lastName"),
+      roles: [formData.get("role")],
+      regionId: 0,
+      middleName: "",
+      username: formData.get("username"),
+      birtDate: formData.get("birthDate"),
     });
+
+    if (submit && attachId) addAdmin(data);
+  };
+
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
   };
 
   React.useEffect(() => getRoles(setRoles), []);
-
-  React.useEffect(() => {
-    if (submit) addAdmin(data);
-  }, [data, submit]);
 
   return (
     <div>
@@ -109,6 +139,20 @@ export default function AddAdminModal() {
               }}
             >
               <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <input
+                    onChange={handleImageChange}
+                    accept="image/*"
+                    style={{ display: "none" }}
+                    id="file-upload"
+                    type="file"
+                  />
+                  <label htmlFor="file-upload">
+                    <Button variant="contained" component="span">
+                      Upload image
+                    </Button>
+                  </label>
+                </Grid>
                 <Grid item xs={12}>
                   <TextField
                     autoComplete="given-name"
@@ -150,15 +194,14 @@ export default function AddAdminModal() {
                     <MenuItem value="" disabled>
                       <em>Select roles</em>
                     </MenuItem>
-                    {/* {roles &&
+                    {roles.length &&
                       roles.map((role) => {
                         return (
                           <MenuItem key={role} value={role}>
                             {role}
                           </MenuItem>
                         );
-                      })} */}
-                      <MenuItem value="salom" >admin</MenuItem>
+                      })}
                   </Select>
                 </Grid>
                 <Grid item xs={12}>
@@ -193,7 +236,10 @@ export default function AddAdminModal() {
                   />
                 </Grid>
                 <Button
-                  onClick={() => setSubmit(true)}
+                  onClick={() => {
+                    setSubmit(true);
+                    Toaster.notify(300, "Successfully send!");
+                  }}
                   type="submit"
                   fullWidth
                   variant="contained"

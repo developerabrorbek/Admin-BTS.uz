@@ -18,7 +18,6 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems } from "../../components/listItems";
 import { useNavigate } from "react-router";
 import Admins from "../../components/Admins";
-import { axiosInstance } from "../../configs/axios.config";
 import AddAdminModal from "../../components/Modals/Admins/add-admin.modal";
 const drawerWidth = 240;
 
@@ -70,24 +69,12 @@ const defaultTheme = createTheme();
 
 export default function AdminPage() {
   const [open, setOpen] = React.useState(true);
-  const [admins, setAdmins] = React.useState(null);
   const toggleDrawer = () => {
     setOpen(!open);
   };
   const navigate = useNavigate();
 
-  React.useEffect(() => {
-    try {
-      axiosInstance
-        .get("admin/list")
-        .then((res) => setAdmins(res.data.body))
-        .catch((err) => console.log(err.name, ": ", err.message));
-    } catch (error) {
-      console.log(error.name, ": ", error.message);
-    }
-  }, []);
 
-  console.log(admins);
 
   return (
     <ThemeProvider theme={defaultTheme}>

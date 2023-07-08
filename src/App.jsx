@@ -9,22 +9,25 @@ import CustomersPage from "./pages/Customers";
 import ProductPage from "./pages/Products";
 import CategoriesPage from "./pages/Categories";
 import { useIsAuthCustom } from "./hooks/Auth.hook";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.min.css'
 
 const App = () => {
-  useIsAuthCustom()
+  useIsAuthCustom();
   return (
     <>
       <Routes>
         <Route path="/" element={<Dashboard />} />
-        <Route path="/orders" element={<OrderPage/>}/>
-        <Route path="/profile" element={<ProfilePage/>}/>
-        <Route path="/categories" element={<CategoriesPage/>} />
-        <Route path="/customers" element={<CustomersPage/>}/>
-        <Route path="/products" element={<ProductPage/>}/>
-        <Route path="/admins" element={<AdminPage/>}/>
-        <Route path="/login" element={<Login/>}/>
-        <Route path="*" element={<Error />}  />
+        <Route path="/orders" element={<OrderPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/categories" element={<CategoriesPage />} />
+        <Route path="/customers" element={<CustomersPage />} />
+        <Route path="/products" element={<ProductPage />} />
+        <Route path="/admins" element={<AdminPage />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="*" element={<Error />} />
       </Routes>
+      <ToastContainer />
     </>
   );
 };
