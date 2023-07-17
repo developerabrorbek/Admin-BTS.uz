@@ -5,7 +5,7 @@ export const useIsAuthCustom = () => {
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
   useEffect(() => {
-    if(!token) {
+    if (!token) {
       navigate("/login");
     }
   }, [token, navigate]);

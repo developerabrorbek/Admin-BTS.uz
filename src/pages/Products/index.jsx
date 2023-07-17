@@ -19,7 +19,6 @@ import { mainListItems } from "../../components/listItems";
 import { useNavigate } from "react-router";
 import ProductsTable from "../../components/ProductsTable";
 import AddProductModal from "../../components/Modals/Products/add-product.modal";
-import { axiosInstance } from "../../configs/axios.config";
 
 const drawerWidth = 240;
 const AppBar = styled(MuiAppBar, {
@@ -65,7 +64,6 @@ const Drawer = styled(MuiDrawer, {
     }),
   },
 }));
-
 
 const defaultTheme = createTheme();
 

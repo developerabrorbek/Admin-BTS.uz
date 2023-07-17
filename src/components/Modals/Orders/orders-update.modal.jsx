@@ -76,7 +76,7 @@ export default function OrderUpdateModal() {
             component="h2"
             sx={{ fontWeight: "bold", fontSize: "28px", color: "#ff2171" }}
           >
-            Update your profile
+            Update this order
           </Typography>
           <Box
             component="form"

@@ -12,6 +12,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import Toaster from "../../components/Toaster";
 
 const defaultTheme = createTheme();
 
@@ -31,7 +32,10 @@ export default function Login() {
       if (userData.data?.body?.token) {
         localStorage.setItem("user", JSON.stringify(userData.data.body.user));
         localStorage.setItem("token", userData.data.body.token);
-        navigate("/");
+        Toaster.notify(200, "Successfully logged in")
+        setTimeout(() => {
+          navigate("/");
+        }, 1000)
       }
     } catch (error) {
       console.log(error.name + ": " + error.message);

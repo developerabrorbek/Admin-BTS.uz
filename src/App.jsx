@@ -10,7 +10,7 @@ import ProductPage from "./pages/Products";
 import CategoriesPage from "./pages/Categories";
 import { useIsAuthCustom } from "./hooks/Auth.hook";
 import { ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.min.css'
+import "react-toastify/dist/ReactToastify.min.css";
 
 const App = () => {
   useIsAuthCustom();

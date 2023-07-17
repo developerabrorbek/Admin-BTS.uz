@@ -9,6 +9,7 @@ import { axiosInstance } from "../../../configs/axios.config";
 import { IconButton, Tooltip } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import Toaster from "../../Toaster";
+import axios from "axios";
 
 const style = {
   position: "absolute",
@@ -24,12 +25,25 @@ const style = {
   p: 4,
 };
 
+const uploadImage = async (formData, setId) => {
+  try {
+    const { data } = await axios.post(
+      "https://rjavadev.jprq.live/api/v1/attach/upload",
+      formData
+    );
+    setId(data.body.id);
+    return data.id;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 const AddCategory = (data) => {
   try {
     axiosInstance
       .post("category/add", data)
       .then(() => Toaster.notify(200, "Category added!"))
-      .catch((err) => Toaster.notify(404, err.message));
+      .catch((err) => Toaster.notify(404, err.response.data.message));
   } catch (error) {
     console.log(error);
   }
@@ -41,19 +55,30 @@ export default function AddCategoryModal() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [message, setMessage] = React.useState({});
+  const [image, setImage] = React.useState(null);
+  const [attachId, setAttachId] = React.useState(0);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+    const upload = new FormData();
+
+    upload.append("file", image);
+
+    await uploadImage(upload, setAttachId);
+
     setMessage({
+      attachId: attachId,
       name: data.get("name"),
       type: data.get("type"),
     });
+
+    if (submit && attachId) AddCategory(message);
   };
 
-  React.useEffect(() => {
-    if (open && submit && message) AddCategory(message);
-  }, [message, open, submit]);
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
 
   return (
     <div>
@@ -96,6 +121,20 @@ export default function AddCategoryModal() {
             >
               <Grid container spacing={2}>
                 <Grid item xs={12}>
+                  <input
+                    onChange={handleImageChange}
+                    accept="image/*"
+                    style={{ display: "none" }}
+                    id="file-upload"
+                    type="file"
+                  />
+                  <label htmlFor="file-upload">
+                    <Button variant="contained" component="span">
+                      Upload image
+                    </Button>
+                  </label>
+                </Grid>
+                <Grid item xs={12}>
                   <TextField
                     autoComplete="given-name"
                     name="name"
@@ -116,11 +155,10 @@ export default function AddCategoryModal() {
                     autoComplete="family-name"
                   />
                 </Grid>
-
                 <Button
                   onClick={() => {
-                    setTimeout(() => setOpen(false), 1000);
-                    setSubmit(!submit);
+                    setTimeout(() => setOpen(false), 3000);
+                    setSubmit(true);
                     Toaster.notify(300, "Request send");
                   }}
                   type="submit"

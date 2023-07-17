@@ -6,6 +6,8 @@ import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import { axiosInstance } from "../../../configs/axios.config";
+import Toaster from "../../Toaster";
+import axios from "axios";
 
 const style = {
   position: "absolute",
@@ -21,33 +23,60 @@ const style = {
   p: 4,
 };
 
-const updateProfile = (newData, id) => {
-  axiosInstance
-    .put(`user/update/${id}`, newData)
-    .then((res) => console.log(res.data))
-    .catch((err) => console.log(err.name, ": ", err.message));
+const uploadImage = async (formData, setId) => {
+  try {
+    const { data } = await axios.post(
+      "https://rjavadev.jprq.live/api/v1/attach/upload",
+      formData
+    );
+    setId(data.body.id);
+    return data.id;
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
-export default function ProfileUpdateModal({ id }) {
+const updateProfile = (newData) => {
+  axiosInstance
+    .patch(`user/update-my`, newData)
+    .then((res) => Toaster.notify(200, res.data.body.message))
+    .catch((err) => Toaster.notify(404, err.response.data.message));
+};
+
+export default function ProfileUpdateModal() {
   const [open, setOpen] = React.useState(false);
+  const [submit, setSubmit] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const [data, setData] = React.useState({});
+  const [formData, setFormData] = React.useState({});
+  const [image, setImage] = React.useState(null);
+  const [attachId, setAttachId] = React.useState(0);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    setData({
+    const upload = new FormData();
+
+    upload.append("file", image);
+
+    await uploadImage(upload, setAttachId);
+
+    setFormData({
+      attachId: attachId,
       phoneNumber: data.get("number"),
       password: data.get("password"),
       firstname: data.get("firstName"),
-      lastname: data.get("lastName"),
       username: data.get("username"),
-      birtDate: data.get("birthDate"),
     });
+
+    if (attachId && submit) {
+      updateProfile(formData);
+    }
   };
 
-  React.useEffect(() => updateProfile(data, id), [id, data]);
+  const handleImageChange = (e) => {
+    setImage(e.target.files[0]);
+  };
 
   return (
     <div>
@@ -98,6 +127,20 @@ export default function ProfileUpdateModal({ id }) {
                   </Typography>
                 </Grid>
                 <Grid item xs={12}>
+                  <input
+                    onChange={handleImageChange}
+                    accept="image/*"
+                    style={{ display: "none" }}
+                    id="file-upload"
+                    type="file"
+                  />
+                  <label htmlFor="file-upload">
+                    <Button variant="contained" component="span">
+                      Upload image
+                    </Button>
+                  </label>
+                </Grid>
+                <Grid item xs={12}>
                   <TextField
                     autoComplete="given-name"
                     name="firstName"
@@ -112,30 +155,10 @@ export default function ProfileUpdateModal({ id }) {
                   <TextField
                     required
                     fullWidth
-                    id="lastName"
-                    label="Last Name"
-                    name="lastName"
-                    autoComplete="family-name"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
                     id="username"
                     label="Username"
                     name="username"
                     autoComplete="Username"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="birthDate"
-                    label="Birth Date"
-                    name="birthDate"
-                    autoComplete="Birth-date"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -160,6 +183,7 @@ export default function ProfileUpdateModal({ id }) {
                   />
                 </Grid>
                 <Button
+                  onClick={() => setSubmit(true)}
                   type="submit"
                   fullWidth
                   variant="contained"

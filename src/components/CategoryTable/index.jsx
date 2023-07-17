@@ -20,15 +20,6 @@ const getAllCategories = async (setData) => {
   }
 };
 
-// const deleteCategory = async (id) => {
-//   try {
-//     const data = await axiosInstance.delete(`category/delete/${id}`);
-//     return data.data;
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// };
-
 export default function CategoryTable() {
   const [categories, setCategories] = React.useState([]);
 
@@ -65,7 +56,7 @@ export default function CategoryTable() {
                 <EditCategoryModal id={row.id} name={row.name} />
               </TableCell>
               <TableCell align="right">
-                <DeleteCategoryModal id={row.id} name={row.name}/>
+                <DeleteCategoryModal id={row.id} name={row.name} />
               </TableCell>
             </TableRow>
           ))}

@@ -44,7 +44,10 @@ const addAdmin = (data) => {
     axiosInstance
       .post("admin/add", data)
       .then(() => Toaster.notify(200, "Successfully added!"))
-      .catch((err) => console.log(err.name, ": ", err.message));
+      .catch((err) => {
+        Toaster.notify(400, err.response.data.message);
+        console.log(err);
+      });
   } catch (error) {
     console.log(error.message);
   }
@@ -53,7 +56,7 @@ const addAdmin = (data) => {
 const uploadImage = async (formData, setId) => {
   try {
     const { data } = await axios.post(
-      "https://rjavadev.jprq.live/attach/upload",
+      "https://rjavadev.jprq.live/api/v1/attach/upload",
       formData
     );
     setId(data.body.id);
@@ -73,29 +76,28 @@ export default function AddAdminModal() {
   const [image, setImage] = React.useState(null);
   const [attachId, setAttachId] = React.useState(0);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const upload = new FormData();
 
     upload.append("file", image);
 
-    uploadImage(upload, setAttachId);
+    await uploadImage(upload, setAttachId);
 
     setData({
       attachId: attachId,
       phoneNumber: formData.get("number"),
       password: formData.get("password"),
       firstname: formData.get("firstName"),
-      lastname: formData.get("lastName"),
       roles: [formData.get("role")],
-      regionId: 0,
-      middleName: "",
+      // regionId: 1,
       username: formData.get("username"),
-      birtDate: formData.get("birthDate"),
     });
 
-    if (submit && attachId) addAdmin(data);
+    if (submit && attachId) {
+      addAdmin(data);
+    }
   };
 
   const handleImageChange = (e) => {
@@ -168,16 +170,6 @@ export default function AddAdminModal() {
                   <TextField
                     required
                     fullWidth
-                    id="lastName"
-                    label="Last Name"
-                    name="lastName"
-                    autoComplete="family-name"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
                     id="username"
                     label="Username"
                     name="username"
@@ -211,16 +203,6 @@ export default function AddAdminModal() {
                   <TextField
                     required
                     fullWidth
-                    id="birthDate"
-                    label="Birth Date"
-                    name="birthDate"
-                    autoComplete="Birth-date"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
                     id="number"
                     label="Phone number"
                     name="number"
@@ -240,7 +222,7 @@ export default function AddAdminModal() {
                 </Grid>
                 <Button
                   onClick={() => {
-                    setTimeout(() => setOpen(false), 1000);
+                    setTimeout(() => setOpen(false), 3000);
                     setSubmit(true);
                     Toaster.notify(300, "Successfully send!");
                   }}

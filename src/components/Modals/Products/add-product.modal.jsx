@@ -7,12 +7,13 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import { axiosInstance } from "../../../configs/axios.config";
 import { Tooltip } from "@mui/material";
+import NestedSelect from "../../NestedSelect";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
-  width : "600px",
+  width: "600px",
   transform: "translate(-50%, -50%)",
   display: "flex",
   alignItems: "center",
@@ -105,12 +106,11 @@ export default function AddProductModal() {
               <Grid container spacing={2}>
                 <Grid item xs={12}>
                   <TextField
-                    autoComplete="given-name"
-                    name="firstName"
+                    name="name"
                     required
                     fullWidth
-                    id="firstName"
-                    label="First Name"
+                    id="name"
+                    label="Product name"
                     autoFocus
                   />
                 </Grid>
@@ -118,52 +118,43 @@ export default function AddProductModal() {
                   <TextField
                     required
                     fullWidth
-                    id="lastName"
-                    label="Last Name"
-                    name="lastName"
-                    autoComplete="family-name"
+                    id="price"
+                    label="Price"
+                    name="price"
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
                     required
                     fullWidth
-                    id="username"
-                    label="Username"
-                    name="username"
-                    autoComplete="Username"
+                    id="color"
+                    label="Color"
+                    name="color"
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
                     required
                     fullWidth
-                    id="birthDate"
-                    label="Birth Date"
-                    name="birthDate"
-                    autoComplete="Birth-date"
+                    multiline
+                    id="description"
+                    label="Enter description"
+                    name="description"
+                    rows={4}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
                     required
                     fullWidth
-                    id="number"
-                    label="Phone number"
-                    name="number"
-                    autoComplete="Phone number"
+                    type="file"
+                    id="file"
+                    label=""
+                    name="file"
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="new-password"
-                  />
+                  <NestedSelect />
                 </Grid>
                 <Button
                   onClick={() => setSubmit(true)}
@@ -173,7 +164,7 @@ export default function AddProductModal() {
                   xs={12}
                   sx={{ mt: 3, mb: 2, ml: 2 }}
                 >
-                  Update
+                  Add product
                 </Button>
               </Grid>
             </Box>

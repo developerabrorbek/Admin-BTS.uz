@@ -3,8 +3,6 @@ import { Button } from "@mui/material";
 import { axiosInstance } from "../../configs/axios.config";
 import DeleteAdminModal from "../Modals/Admins/delete-admin.modal";
 
-
-
 const Admins = () => {
   const [admins, setAdmins] = React.useState(null);
 
@@ -19,7 +17,7 @@ const Admins = () => {
     }
   }, []);
 
-
+  console.log(admins);
 
   return (
     <>
@@ -32,16 +30,26 @@ const Admins = () => {
                 admins.map((admin) => {
                   return (
                     <>
-                      <li key={admin.id} className="card flex flex-col gap-y-4 items-center justify-center px-11 py-6 rounded-md shadow hover:shadow-lg">
+                      <li
+                        key={admin.id}
+                        className="card flex flex-col gap-y-4 items-center justify-center px-11 py-6 rounded-md shadow hover:shadow-lg"
+                      >
                         <img
-                          src="https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?cs=srgb&dl=pexels-justin-shaifer-1222271.jpg&fm=jpg"
-                          alt="Admin img"
-                          className="admin-img w-[140px] h-[140px] rounded-full"
+                          src={admin?.attach?.url}
+                          alt="Admin image"
+                          className="admin-img text-center flex items-center w-[140px] h-[140px] rounded-full"
                         />
-                        <p className="name mb-6">{admin.firstname}</p>
+                        <p className="name mb-4 text-[18px]">{admin.firstname}</p>
+                        <p className="roles mb-6 text-[12px] font-semibold">
+                          {admin.roleEnumList.join(" ")}
+                        </p>
                         <span className="btns grid gap-y-2">
                           <Button variant="contained">Show profile</Button>
-                          <DeleteAdminModal id={admin.id} name={admin.firstname}/>
+                          <DeleteAdminModal
+                            id={admin.id}
+                            name={admin.firstname}
+                            role={admin.roleEnumList}
+                          />
                         </span>
                       </li>
                     </>
