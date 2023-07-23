@@ -17,7 +17,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems } from "../../components/listItems";
 import { useNavigate } from "react-router";
-import ProductsTable from "../../components/ProductsTable";
+import CustomersTable from "../../components/CustomersTable";
 
 const drawerWidth = 240;
 
@@ -148,7 +148,7 @@ export default function CustomersPage() {
 
           <Grid item xs={12}>
             <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-              <ProductsTable />
+              <CustomersTable />
             </Paper>
           </Grid>
         </Box>

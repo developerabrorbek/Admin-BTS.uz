@@ -9,9 +9,9 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { axiosInstance } from "../../configs/axios.config";
 
-const getAllProducts = async (setData) => {
+const getAllCustomers = async (setData) => {
   try {
-    const { data } = await axiosInstance.get("product/get/all");
+    const { data } = await axiosInstance.get("user/list");
     setData(data.body);
     return data.body;
   } catch (error) {
@@ -19,9 +19,9 @@ const getAllProducts = async (setData) => {
   }
 };
 
-export default function ProductsTable() {
+export default function CustomersTable() {
   const [page, setPage] = React.useState(0);
-  const [products, setProducts] = React.useState(null);
+  const [customers, setCustomers] = React.useState(null);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const handleChangePage = (event, newPage) => {
@@ -34,7 +34,7 @@ export default function ProductsTable() {
   };
 
   React.useEffect(() => {
-    getAllProducts(setProducts);
+    getAllCustomers(setCustomers);
   }, []);
 
   return (
@@ -51,26 +51,27 @@ export default function ProductsTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {products && products.map((product) => {
-              return (
-                <>
-                  <TableRow>
-                    <TableCell>{product.name}</TableCell>
-                    <TableCell>{product.color}</TableCell>
-                    <TableCell>{product.price}</TableCell>
-                    <TableCell>{product.description}</TableCell>
-                    <TableCell>{product.categoryId}</TableCell>
-                  </TableRow>
-                </>
-              );
-            })}
+            {customers &&
+              customers.map((customer) => {
+                return (
+                  <>
+                    <TableRow>
+                      <TableCell>{customer.name}</TableCell>
+                      <TableCell>{customer.color}</TableCell>
+                      <TableCell>{customer.price}</TableCell>
+                      <TableCell>{customer.description}</TableCell>
+                      <TableCell>{customer.categoryId}</TableCell>
+                    </TableRow>
+                  </>
+                );
+              })}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[5,10, 25, 100]}
+        rowsPerPageOptions={[5, 10, 25, 100]}
         component="div"
-        count={products?.length}
+        count={customers?.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

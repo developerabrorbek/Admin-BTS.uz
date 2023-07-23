@@ -9,9 +9,9 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { axiosInstance } from "../../configs/axios.config";
 
-const getAllProducts = async (setData) => {
+const getAllServices = async (setData) => {
   try {
-    const { data } = await axiosInstance.get("product/get/all");
+    const { data } = await axiosInstance.get("technical-service/get/all");
     setData(data.body);
     return data.body;
   } catch (error) {
@@ -19,9 +19,9 @@ const getAllProducts = async (setData) => {
   }
 };
 
-export default function ProductsTable() {
+export default function ServicesTable() {
   const [page, setPage] = React.useState(0);
-  const [products, setProducts] = React.useState(null);
+  const [services, setServices] = React.useState(null);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const handleChangePage = (event, newPage) => {
@@ -34,7 +34,7 @@ export default function ProductsTable() {
   };
 
   React.useEffect(() => {
-    getAllProducts(setProducts);
+    getAllServices(setServices);
   }, []);
 
   return (
@@ -44,33 +44,32 @@ export default function ProductsTable() {
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
-              <TableCell>Color</TableCell>
-              <TableCell>Price</TableCell>
               <TableCell>Description</TableCell>
+              <TableCell>Image</TableCell>
               <TableCell>Category ID</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {products && products.map((product) => {
-              return (
-                <>
-                  <TableRow>
-                    <TableCell>{product.name}</TableCell>
-                    <TableCell>{product.color}</TableCell>
-                    <TableCell>{product.price}</TableCell>
-                    <TableCell>{product.description}</TableCell>
-                    <TableCell>{product.categoryId}</TableCell>
-                  </TableRow>
-                </>
-              );
-            })}
+            {services &&
+              services.map((service) => {
+                return (
+                  <>
+                    <TableRow>
+                      <TableCell>{service.name}</TableCell>
+                      <TableCell>{service.description}</TableCell>
+                      <TableCell>{service?.image}</TableCell>
+                      <TableCell>{service.categoryId}</TableCell>
+                    </TableRow>
+                  </>
+                );
+              })}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[5,10, 25, 100]}
+        rowsPerPageOptions={[5, 10, 25, 100]}
         component="div"
-        count={products?.length}
+        count={services?.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

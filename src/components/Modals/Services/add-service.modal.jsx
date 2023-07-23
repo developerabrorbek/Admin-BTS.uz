@@ -5,9 +5,11 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
-import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
+import AddToDriveIcon from "@mui/icons-material/AddToDrive";
 import { axiosInstance } from "../../../configs/axios.config";
 import { Tooltip } from "@mui/material";
+import axios from "axios";
+import Toaster from "../../Toaster";
 
 const style = {
   position: "absolute",
@@ -24,25 +26,27 @@ const style = {
   p: 4,
 };
 
-const uploadImages = async (formData, setId) => {
+const uploadImage = async (formData, setId) => {
   try {
-    const { data } = await axiosInstance.post("attach/uploads", formData);
-    const allId = data.body.map((e) => e.id);
-    setId(allId);
-    return data.id;
+    const { data } = await axios.post(
+      "https://rjavadev.jprq.live/api/v1/attach/upload",
+      formData
+    );
+    setId(data.body.id);
+    return data.body.id;
   } catch (error) {
     console.log(error);
   }
 };
 
-const addProduct = (newData) => {
+const addService = (newData) => {
   axiosInstance
-    .post(`product/add`, newData)
-    .then((res) => console.log(res.data))
-    .catch((err) => console.log(err.name, ": ", err.message));
+    .post(`technical-service/add`, newData)
+    .then((res) => Toaster.notify(200, "Successfully added"))
+    .catch((err) => Toaster.notify(400, err.message));
 };
 
-export default function AddProductModal({ id }) {
+export default function AddServiceModal({ id }) {
   const [open, setOpen] = React.useState(false);
   const [submit, setSubmit] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -58,31 +62,24 @@ export default function AddProductModal({ id }) {
       attachId: attachId,
       description: data.get("description"),
       name: data.get("name"),
-      price: data.get("price"),
-      color: data.get("color"),
       categoryId: id,
     });
   };
 
   const handleImageChange = async (e) => {
     const formData = new FormData();
-    if (e.target.files.length) {
-      for (let i = 0; i < e.target.files.length; i++) {
-        formData.append("files", e.target.files[i]);
-      }
-      await uploadImages(formData, setAttachId);
-    }
-    console.log(formData.getAll("files"));
+    formData.append("file", e.target.files[0]);
+    await uploadImage(formData, setAttachId);
   };
 
   React.useEffect(() => {
-    if (open && submit) addProduct(message, 1);
+    if (open && submit) addService(message);
   }, [message, open, submit]);
 
   return (
     <div>
-      <Tooltip onClick={handleOpen} title="add product">
-        <LibraryAddIcon />
+      <Tooltip onClick={handleOpen} title="add service">
+        <AddToDriveIcon />
       </Tooltip>
       <Modal
         open={open}
@@ -97,7 +94,7 @@ export default function AddProductModal({ id }) {
             component="h2"
             sx={{ fontWeight: "bold", fontSize: "28px", color: "#ff2171" }}
           >
-            Add new product
+            Add new service
           </Typography>
           <Box
             component="form"
@@ -120,26 +117,8 @@ export default function AddProductModal({ id }) {
                     required
                     fullWidth
                     id="name"
-                    label="Product name"
+                    label="Service name"
                     autoFocus
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="price"
-                    label="Price"
-                    name="price"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="color"
-                    label="Color"
-                    name="color"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -162,7 +141,7 @@ export default function AddProductModal({ id }) {
                     component="label"
                     fullWidth
                   >
-                    Upload images
+                    Upload image
                     <input
                       type="file"
                       onChange={handleImageChange}
@@ -179,7 +158,7 @@ export default function AddProductModal({ id }) {
                   xs={12}
                   sx={{ mt: 3, mb: 2, ml: 2 }}
                 >
-                  Add product
+                  Add service
                 </Button>
               </Grid>
             </Box>
