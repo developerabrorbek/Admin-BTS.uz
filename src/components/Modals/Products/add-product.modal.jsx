@@ -24,13 +24,19 @@ const style = {
   p: 4,
 };
 
+const uploadImage = async (formData, setId) => {
+  try {
+    const { data } = await axiosInstance.post("attach/uploads", formData);
+    setId(data.body.id);
+    return data.id;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const addProduct = (newData, id) => {
   axiosInstance
-    .patch(`product/add/${id}`, newData, {
-      Headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
+    .post(`product/add/${id}`, newData)
     .then((res) => console.log(res.data))
     .catch((err) => console.log(err.name, ": ", err.message));
 };
@@ -41,18 +47,31 @@ export default function AddProductModal() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [message, setMessage] = React.useState({});
+  const [attachId, setAttachId] = React.useState(0);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
+
     setMessage({
-      phoneNumber: data.get("number"),
-      password: data.get("password"),
-      firstname: data.get("firstName"),
-      lastname: data.get("lastName"),
-      username: data.get("username"),
-      birtDate: data.get("birthDate"),
+      attachId: [attachId],
+      description: data.get("number"),
+      name: data.get("password"),
+      price: data.get("firstName"),
+      color: data.get("lastName"),
+      categoryId: data.get("username"),
     });
+  };
+
+  const handleImageChange = async (e) => {
+    const formData = new FormData();
+    if (e.target.files.length) {
+      for (let i = 0; i < e.target.files.length; i++) {
+        formData.append("files", e.target.files[i]);
+      }
+      await uploadImage(formData, setAttachId);
+    }
+    console.log(formData.getAll("files"))
   };
 
   React.useEffect(() => {
@@ -144,14 +163,22 @@ export default function AddProductModal() {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    required
+                  <Button
+                    variant="contained"
+                    type="submit"
+                    size="large"
+                    color="secondary"
+                    component="label"
                     fullWidth
-                    type="file"
-                    id="file"
-                    label=""
-                    name="file"
-                  />
+                  >
+                    Upload images
+                    <input
+                      type="file"
+                      onChange={handleImageChange}
+                      hidden
+                      multiple
+                    />
+                  </Button>
                 </Grid>
                 <Grid item xs={12}>
                   <NestedSelect />

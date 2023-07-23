@@ -81,7 +81,7 @@ export default function ProfileUpdateModal() {
   return (
     <div>
       <Button variant="contained" onClick={handleOpen}>
-        Ozgartirish
+        O&apos;zgartirish
       </Button>
       <Modal
         open={open}

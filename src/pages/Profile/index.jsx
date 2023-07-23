@@ -169,7 +169,7 @@ export default function ProfilePage() {
                           sx={{ bgcolor: deepOrange[500] }}
                         />
                         <h3 className="font-bold text-[16px]">
-                          Shaxsiy malumotlarim
+                          Shaxsiy ma&apos;lumotlarim
                         </h3>
                       </div>
                       <ProfileUpdateModal id={user?.id}/>
@@ -203,7 +203,7 @@ export default function ProfilePage() {
                         </h3>
                       </div>
                       <Button variant="contained" color="success">
-                        Karta qoshish
+                        Karta qo&apos;shish
                       </Button>
                     </div>
                     <div className="body p-3 ">

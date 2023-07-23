@@ -9,6 +9,7 @@ import AccessibilityNewIcon from '@mui/icons-material/AccessibilityNew';
 import PersonIcon from '@mui/icons-material/Person';
 import LayersIcon from '@mui/icons-material/Layers';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
+import ConstructionIcon from '@mui/icons-material/Construction';
 
 
 export const mainListItems = (
@@ -42,6 +43,12 @@ export const mainListItems = (
         <LocalMallIcon />
       </ListItemIcon>
       <ListItemText primary="Products" />
+    </ListItemButton>
+    <ListItemButton href = '/services'>
+      <ListItemIcon>
+        <ConstructionIcon />
+      </ListItemIcon>
+      <ListItemText primary="Services" />
     </ListItemButton>
     <ListItemButton href = '/customers'>
       <ListItemIcon>
