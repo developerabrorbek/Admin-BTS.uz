@@ -7,7 +7,8 @@ import TextField from "@mui/material/TextField";
 import Grid from "@mui/material/Grid";
 import LibraryAddIcon from "@mui/icons-material/LibraryAdd";
 import { axiosInstance } from "../../../configs/axios.config";
-import { Tooltip } from "@mui/material";
+import { Tooltip, IconButton } from "@mui/material";
+import EditIcon from "@mui/icons-material/Edit";
 import Toaster from "../../Toaster";
 
 const style = {
@@ -36,14 +37,14 @@ const uploadImages = async (formData, setId) => {
   }
 };
 
-const addProduct = (newData) => {
+const updateProduct = (newData, id) => {
   axiosInstance
-    .post(`product/add`, newData)
-    .then((res) => Toaster.notify(200, "Successfully added product"))
+    .post(`product/update/${id}`, newData)
+    .then((res) => Toaster.notify(200, "Successfully updated product"))
     .catch((err) => console.log(err.name, ": ", err.message));
 };
 
-export default function AddProductModal({ id }) {
+export default function UpdateProductModal({ id }) {
   const [open, setOpen] = React.useState(false);
   const [submit, setSubmit] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -73,17 +74,18 @@ export default function AddProductModal({ id }) {
       }
       await uploadImages(formData, setAttachId);
     }
-    console.log(formData.getAll("files"));
   };
 
   React.useEffect(() => {
-    if (open && submit) addProduct(message, 1);
+    if (open && submit) updateProduct(message, id);
   }, [message, open, submit]);
 
   return (
     <div>
-      <Tooltip onClick={handleOpen} title="add product">
-        <LibraryAddIcon />
+      <Tooltip onClick={handleOpen} title="edit product">
+        <IconButton>
+          <EditIcon sx={{ color: "green" }} />
+        </IconButton>
       </Tooltip>
       <Modal
         open={open}
@@ -98,7 +100,7 @@ export default function AddProductModal({ id }) {
             component="h2"
             sx={{ fontWeight: "bold", fontSize: "28px", color: "#ff2171" }}
           >
-            Add new product
+            Update product
           </Typography>
           <Box
             component="form"

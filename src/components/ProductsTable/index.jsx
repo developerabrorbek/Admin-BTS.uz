@@ -8,6 +8,8 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { axiosInstance } from "../../configs/axios.config";
+import UpdateProductModal from "../Modals/Products/update-product.modal";
+import DeleteProductModal from "../Modals/Products/delete-product.modal";
 
 const getAllProducts = async (setData) => {
   try {
@@ -48,6 +50,8 @@ export default function ProductsTable() {
               <TableCell>Price</TableCell>
               <TableCell>Description</TableCell>
               <TableCell>Category ID</TableCell>
+              <TableCell>Edit</TableCell>
+              <TableCell>Delete</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -60,6 +64,8 @@ export default function ProductsTable() {
                     <TableCell>{product.price}</TableCell>
                     <TableCell>{product.description}</TableCell>
                     <TableCell>{product.categoryId}</TableCell>
+                    <TableCell><UpdateProductModal id={product.id}/></TableCell>
+                    <TableCell><DeleteProductModal id={product.id} name={product.name}/></TableCell>
                   </TableRow>
                 </>
               );

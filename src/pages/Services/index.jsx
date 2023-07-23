@@ -17,8 +17,7 @@ import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems } from "../../components/listItems";
 import { useNavigate } from "react-router";
-import ProductsTable from "../../components/ProductsTable";
-import AddProductModal from "../../components/Modals/Products/add-product.modal";
+import ServicesTable from "../../components/ServicesTable";
 
 const drawerWidth = 240;
 const AppBar = styled(MuiAppBar, {
@@ -67,7 +66,7 @@ const Drawer = styled(MuiDrawer, {
 
 const defaultTheme = createTheme();
 
-export default function ProductPage() {
+export default function ServicesPage() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -142,10 +141,9 @@ export default function ProductPage() {
           }}
         >
           <Toolbar />
-
           <Grid item xs={12}>
             <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-              <ProductsTable />
+              <ServicesTable/>
             </Paper>
           </Grid>
         </Box>

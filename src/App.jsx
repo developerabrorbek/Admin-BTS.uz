@@ -11,6 +11,7 @@ import CategoriesPage from "./pages/Categories";
 import { useIsAuthCustom } from "./hooks/Auth.hook";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.min.css";
+import ServicesPage from "./pages/Services";
 
 const App = () => {
   useIsAuthCustom();
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/categories" element={<CategoriesPage />} />
         <Route path="/customers" element={<CustomersPage />} />
         <Route path="/products" element={<ProductPage />} />
+        <Route path="/services" element={<ServicesPage/>}/>
         <Route path="/admins" element={<AdminPage />} />
         <Route path="/login" element={<Login />} />
         <Route path="*" element={<Error />} />

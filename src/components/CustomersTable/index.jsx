@@ -12,6 +12,7 @@ import { axiosInstance } from "../../configs/axios.config";
 const getAllCustomers = async (setData) => {
   try {
     const { data } = await axiosInstance.get("user/list");
+    console.log(data);
     setData(data.body);
     return data.body;
   } catch (error) {
@@ -44,10 +45,10 @@ export default function CustomersTable() {
           <TableHead>
             <TableRow>
               <TableCell>Name</TableCell>
-              <TableCell>Color</TableCell>
-              <TableCell>Price</TableCell>
-              <TableCell>Description</TableCell>
-              <TableCell>Category ID</TableCell>
+              <TableCell>Address</TableCell>
+              <TableCell>Phone number</TableCell>
+              <TableCell>Username</TableCell>
+              <TableCell>User Id</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -56,11 +57,11 @@ export default function CustomersTable() {
                 return (
                   <>
                     <TableRow>
-                      <TableCell>{customer.name}</TableCell>
-                      <TableCell>{customer.color}</TableCell>
-                      <TableCell>{customer.price}</TableCell>
-                      <TableCell>{customer.description}</TableCell>
-                      <TableCell>{customer.categoryId}</TableCell>
+                      <TableCell>{customer.firstname}</TableCell>
+                      <TableCell>{customer.address}</TableCell>
+                      <TableCell>{customer.phoneNumber}</TableCell>
+                      <TableCell>{customer.username}</TableCell>
+                      <TableCell>{customer.id}</TableCell>
                     </TableRow>
                   </>
                 );
