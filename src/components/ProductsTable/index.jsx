@@ -55,26 +55,34 @@ export default function ProductsTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {products && products.map((product) => {
-              return (
-                <>
-                  <TableRow>
-                    <TableCell>{product.name}</TableCell>
-                    <TableCell>{product.color}</TableCell>
-                    <TableCell>{product.price}</TableCell>
-                    <TableCell>{product.description}</TableCell>
-                    <TableCell>{product.categoryId}</TableCell>
-                    <TableCell><UpdateProductModal id={product.id}/></TableCell>
-                    <TableCell><DeleteProductModal id={product.id} name={product.name}/></TableCell>
-                  </TableRow>
-                </>
-              );
-            })}
+            {products &&
+              products.map((product) => {
+                return (
+                  <>
+                    <TableRow>
+                      <TableCell>{product.name}</TableCell>
+                      <TableCell>{product.color}</TableCell>
+                      <TableCell>{product.price}</TableCell>
+                      <TableCell>{product.description}</TableCell>
+                      <TableCell>{product.categoryId}</TableCell>
+                      <TableCell>
+                        <UpdateProductModal id={product.id} />
+                      </TableCell>
+                      <TableCell>
+                        <DeleteProductModal
+                          id={product.id}
+                          name={product.name}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  </>
+                );
+              })}
           </TableBody>
         </Table>
       </TableContainer>
       <TablePagination
-        rowsPerPageOptions={[5,10, 25, 100]}
+        rowsPerPageOptions={[5, 10, 25, 100]}
         component="div"
         count={products?.length}
         rowsPerPage={rowsPerPage}

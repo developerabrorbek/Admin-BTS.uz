@@ -8,6 +8,8 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { axiosInstance } from "../../configs/axios.config";
+import UpdateServiceModal from "../Modals/Services/update-service.modal";
+import DeleteServiceModal from "../Modals/Services/delete-service.modal";
 
 const getAllServices = async (setData) => {
   try {
@@ -47,6 +49,8 @@ export default function ServicesTable() {
               <TableCell>Description</TableCell>
               <TableCell>Image</TableCell>
               <TableCell>Category ID</TableCell>
+              <TableCell>Edit</TableCell>
+              <TableCell>Delete</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -59,6 +63,15 @@ export default function ServicesTable() {
                       <TableCell>{service.description}</TableCell>
                       <TableCell>{service?.image}</TableCell>
                       <TableCell>{service.categoryId}</TableCell>
+                      <TableCell>
+                        <UpdateServiceModal id={service.id} />
+                      </TableCell>
+                      <TableCell>
+                        <DeleteServiceModal
+                          id={service.id}
+                          name={service.name}
+                        />
+                      </TableCell>
                     </TableRow>
                   </>
                 );
