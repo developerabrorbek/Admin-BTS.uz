@@ -15,20 +15,10 @@ import Paper from "@mui/material/Paper";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
 import { mainListItems } from "../../components/listItems";
-import { deepOrange } from "@mui/material/colors";
 import { useNavigate } from "react-router";
-import { Avatar, Button } from "@mui/material";
-import ProfileUpdateModal from "../../components/Modals/Profile/profile-update.modal";
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
+import { axiosInstance } from "../../configs/axios.config";
+import ServiceOrders from "../../components/ServiceOrders";
 
 const drawerWidth = 240;
 
@@ -76,15 +66,16 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
+// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function ProfilePage() {
+
+export default function ServiceOrderPage() {
   const [open, setOpen] = React.useState(true);
+  const [serviceOrders, setServiceOrders] = React.useState();
   const toggleDrawer = () => {
     setOpen(!open);
   };
-
-  const user = JSON.parse(localStorage.getItem("user"));
 
   const navigate = useNavigate();
 
@@ -95,7 +86,7 @@ export default function ProfilePage() {
         <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
-              pr: "24px",
+              pr: "24px", // keep right padding when drawer closed
             }}
           >
             <IconButton
@@ -156,78 +147,11 @@ export default function ProfilePage() {
         >
           <Toolbar />
 
-          <Box sx={{ flexGrow: 1, padding: "12px" }}>
-            <Grid container spacing={2} sx={{ justifyContent: "space-evenly" }}>
-              <Grid item xs={5}>
-                <Item>
-                  <div className="personal-datum">
-                    <div className="head flex items-center justify-between border-b pb-4 mb-4">
-                      <div className="body flex items-center gap-x-4">
-                        <Avatar
-                          alt={`${user?.firstname}`}
-                          src="/static/images/avatar/1.jpg"
-                          sx={{ bgcolor: deepOrange[500] }}
-                        />
-                        <h3 className="font-bold text-[16px]">
-                          Shaxsiy ma&apos;lumotlarim
-                        </h3>
-                      </div>
-                      <ProfileUpdateModal id={user?.id} />
-                    </div>
-                    <div className="body p-3 ">
-                      <h3 className="name text-left mb-6 font-semibold text-[15px] text-[#4b4a4a]">
-                        {`${user?.firstname} ${user?.lastname} `}
-                      </h3>
-                      <div className="number flex items-center gap-x-3 mb-2">
-                        <span className="tel">Telefon:</span>
-                        <p className="text-black">{`${user?.phoneNumber}`}</p>
-                      </div>
-                      <div className="role flex items-center gap-x-3">
-                        <span>Role: </span>
-                        <p className="text-black">{`${user?.roleEnumList[0]}`}</p>
-                      </div>
-                    </div>
-                  </div>
-                </Item>
-              </Grid>
-              <Grid item xs={5}>
-                <Item>
-                  <div className="personal-datum">
-                    <div className="head flex items-center justify-between border-b pb-4 mb-4">
-                      <div className="body flex items-center gap-x-4">
-                        <div className="card flex items-center justify-center p-2 border border-[#475569] rounded-full">
-                          <CreditCardOutlinedIcon />
-                        </div>
-                        <h3 className="font-bold text-[16px]">
-                          Mening kartalarim
-                        </h3>
-                      </div>
-                      <Button variant="contained" color="success">
-                        Karta qo&apos;shish
-                      </Button>
-                    </div>
-                    <div className="body p-3 ">
-                      <h3 className="name text-left mb-6 font-semibold text-[15px] text-[#4b4a4a]">
-                        Kartalar:
-                      </h3>
-                      <div className="number flex items-center gap-x-3 mb-2">
-                        <span className="tel text-[#1f2937] font-semibold">
-                          Uzcard:{" "}
-                        </span>
-                        <p className="text-black">4444 4444 4444 4444</p>
-                      </div>
-                      <div className="number flex items-center gap-x-3 mb-2">
-                        <span className="tel text-[#1f2937] font-semibold">
-                          Visa:{" "}
-                        </span>
-                        <p className="text-black">1111 1111 1111 1111</p>
-                      </div>
-                    </div>
-                  </div>
-                </Item>
-              </Grid>
-            </Grid>
-          </Box>
+          <Grid item xs={12}>
+            <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
+              <ServiceOrders />
+            </Paper>
+          </Grid>
         </Box>
       </Box>
     </ThemeProvider>

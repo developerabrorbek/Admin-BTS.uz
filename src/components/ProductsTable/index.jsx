@@ -45,10 +45,12 @@ export default function ProductsTable() {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
+              <TableCell>ID</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Color</TableCell>
               <TableCell>Price</TableCell>
               <TableCell>Description</TableCell>
+              <TableCell align="center">Images</TableCell>
               <TableCell>Category ID</TableCell>
               <TableCell>Edit</TableCell>
               <TableCell>Delete</TableCell>
@@ -60,10 +62,24 @@ export default function ProductsTable() {
                 return (
                   <>
                     <TableRow>
+                      <TableCell>{product.id}</TableCell>
                       <TableCell>{product.name}</TableCell>
                       <TableCell>{product.color}</TableCell>
                       <TableCell>{product.price}</TableCell>
                       <TableCell>{product.description}</TableCell>
+                      <TableCell align="center">
+                        {product.attach.length &&
+                          product.attach.map((pr) => (
+                            <>
+                              <img
+                                src={pr.url}
+                                width={28}
+                                alt="image"
+                                className="inline m-1"
+                              />
+                            </>
+                          ))}
+                      </TableCell>
                       <TableCell>{product.categoryId}</TableCell>
                       <TableCell>
                         <UpdateProductModal id={product.id} />

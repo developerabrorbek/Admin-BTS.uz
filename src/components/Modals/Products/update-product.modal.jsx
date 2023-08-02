@@ -39,7 +39,7 @@ const uploadImages = async (formData, setId) => {
 
 const updateProduct = (newData, id) => {
   axiosInstance
-    .post(`product/update/${id}`, newData)
+    .patch(`product/update/${id}`, newData)
     .then((res) => Toaster.notify(200, "Successfully updated product"))
     .catch((err) => console.log(err.name, ": ", err.message));
 };
@@ -182,7 +182,7 @@ export default function UpdateProductModal({ id }) {
                   xs={12}
                   sx={{ mt: 3, mb: 2, ml: 2 }}
                 >
-                  Add product
+                  Update product
                 </Button>
               </Grid>
             </Box>

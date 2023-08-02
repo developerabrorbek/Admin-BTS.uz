@@ -35,6 +35,8 @@ export default function ServicesTable() {
     setPage(0);
   };
 
+  console.log(services)
+
   React.useEffect(() => {
     getAllServices(setServices);
   }, []);
@@ -45,6 +47,7 @@ export default function ServicesTable() {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
+              <TableCell>ID</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Description</TableCell>
               <TableCell>Image</TableCell>
@@ -59,12 +62,21 @@ export default function ServicesTable() {
                 return (
                   <>
                     <TableRow>
-                      <TableCell>{service.name}</TableCell>
+                      <TableCell>{service.id}</TableCell>
+                      <TableCell>{service.category.name}</TableCell>
                       <TableCell>{service.description}</TableCell>
-                      <TableCell>{service?.image}</TableCell>
-                      <TableCell>{service.categoryId}</TableCell>
                       <TableCell>
-                        <UpdateServiceModal id={service.id} />
+                        <img
+                          src={service?.attachResponse.url}
+                          alt="image"
+                          width={48}
+                        />
+                      </TableCell>
+                      <TableCell>
+                        {service.category.parentId || "Yo'q"}
+                      </TableCell>
+                      <TableCell>
+                        <UpdateServiceModal id={service.category.id} />
                       </TableCell>
                       <TableCell>
                         <DeleteServiceModal

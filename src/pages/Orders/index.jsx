@@ -83,11 +83,11 @@ export default function OrderPage() {
     setOpen(!open);
   };
 
-  React.useEffect(() => {
-    setServiceOrders(getServiceOrders());
-  }, []);
+  // React.useEffect(() => {
+  //   setServiceOrders(getServiceOrders());
+  // }, []);
 
-  console.log(serviceOrders);
+  // console.log(serviceOrders);
   const navigate = useNavigate();
 
   return (

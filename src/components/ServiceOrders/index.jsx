@@ -95,12 +95,12 @@ const users = [
   ),
 ];
 const getOrders = async (setOrders) => {
-  const productOrders = await axiosInstance.get("order-for-product/get/all");
-  setOrders(productOrders.data.body);
+  const serviceOrders = await axiosInstance.get("order-for-service/get/all");
+  setOrders(serviceOrders.data.body);
   return "ok";
 };
 
-export default function Orders() {
+export default function ServiceOrders() {
   const rows = [];
   const [user, setUser] = useState("All");
   const [orders, setOrders] = useState(null);
@@ -121,8 +121,6 @@ export default function Orders() {
   React.useEffect(() => {
     getOrders(setOrders);
   }, []);
-
-  console.log(orders);
 
   return (
     <React.Fragment>
@@ -147,7 +145,7 @@ export default function Orders() {
         </Button>
       </Stack>
 
-      <Title>Product Orders</Title>
+      <Title>Service Orders</Title>
       <Table size="small">
         <TableHead>
           <TableRow>
@@ -167,7 +165,7 @@ export default function Orders() {
                 <TableCell>{row.number || "noaniq"}</TableCell>
                 <TableCell>{row.address || "noaniq"}</TableCell>
                 <TableCell>{row.orderStatus}</TableCell>
-                <TableCell align="left">{`$${row.product.price}`}</TableCell>
+                <TableCell align="left">{`$${row.order.price}`}</TableCell>
                 <TableCell title="update">
                   <OrderUpdateModal id={row.id} />
                 </TableCell>

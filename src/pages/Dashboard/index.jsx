@@ -175,14 +175,8 @@ export default function Dashboard() {
                   <Deposits />
                 </Paper>
               </Grid>
-              {/* Recent Orders */}
             </Grid>
           </Container>
-          <Grid item xs={12}>
-            <Paper sx={{ p: 2, display: "flex", flexDirection: "column" }}>
-              <Orders />
-            </Paper>
-          </Grid>
         </Box>
       </Box>
     </ThemeProvider>

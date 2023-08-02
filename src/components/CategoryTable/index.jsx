@@ -56,6 +56,12 @@ export default function CategoryTable() {
               sx={{ fontWeight: "bold", fontSize: "17px", color: "#213363" }}
               align="center"
             >
+              Image
+            </TableCell>
+            <TableCell
+              sx={{ fontWeight: "bold", fontSize: "17px", color: "#213363" }}
+              align="center"
+            >
               Add product
             </TableCell>
             <TableCell
@@ -97,11 +103,14 @@ export default function CategoryTable() {
               <TableCell align="center">
                 {row?.parentId || "Mavjud emas"}
               </TableCell>
-              <TableCell align="center">
-                <AddProductModal id={row.id}/>
+              <TableCell>
+                <img src={row.attach.url} alt="image" width={32} />
               </TableCell>
               <TableCell align="center">
-                <AddServiceModal id={row.id}/>
+                <AddProductModal id={row.id} />
+              </TableCell>
+              <TableCell align="center">
+                <AddServiceModal id={row.id} />
               </TableCell>
               <TableCell align="center">
                 <AddSubcategoryModal id={row.id} name={row.name} />

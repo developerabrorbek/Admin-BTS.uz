@@ -9,6 +9,7 @@ import { axiosInstance } from "../../../configs/axios.config";
 import { IconButton, Tooltip } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { green } from "@mui/material/colors";
+import Toaster from "../../Toaster";
 
 const style = {
   position: "absolute",
@@ -26,16 +27,12 @@ const style = {
 
 const updateOrder = (newData, id) => {
   axiosInstance
-    .patch(`order/update/${id}`, newData, {
-      Headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-    .then((res) => console.log(res.data))
+    .patch(`order-for-product/update/status/${id}`, newData)
+    .then((res) => Toaster.notify(200, "Updated successfully!"))
     .catch((err) => console.log(err.name, ": ", err.message));
 };
 
-export default function OrderUpdateModal() {
+export default function OrderUpdateModal({ id }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -45,16 +42,10 @@ export default function OrderUpdateModal() {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     setMessage({
-      phoneNumber: data.get("number"),
-      password: data.get("password"),
-      firstname: data.get("firstName"),
-      lastname: data.get("lastName"),
-      username: data.get("username"),
-      birtDate: data.get("birthDate"),
+      orderStatus: data.get("status"),
     });
+    updateOrder(message, id);
   };
-
-  React.useEffect(() => updateOrder(message, 1), [message]);
 
   return (
     <div>
@@ -108,64 +99,13 @@ export default function OrderUpdateModal() {
                 </Grid>
                 <Grid item xs={12}>
                   <TextField
-                    autoComplete="given-name"
-                    name="firstName"
+                    autoComplete="new"
+                    name="status"
                     required
                     fullWidth
-                    id="firstName"
-                    label="First Name"
+                    id="status"
+                    label="Order status"
                     autoFocus
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="lastName"
-                    label="Last Name"
-                    name="lastName"
-                    autoComplete="family-name"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="username"
-                    label="Username"
-                    name="username"
-                    autoComplete="Username"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="birthDate"
-                    label="Birth Date"
-                    name="birthDate"
-                    autoComplete="Birth-date"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    id="number"
-                    label="Phone number"
-                    name="number"
-                    autoComplete="Phone number"
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="new-password"
                   />
                 </Grid>
                 <Button
